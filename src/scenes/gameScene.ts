@@ -1,7 +1,7 @@
-import {Scene} from "phaser";
-import {setupErrorPC} from "../sprites/obstacles/error";
-import {setupDenholm} from "../sprites/obstacles/denholm";
-import {setupCoffeeMachine} from "../sprites/obstacles/coffeeMachine";
+import { Scene } from "phaser";
+import { setupErrorPC } from "../sprites/obstacles/error";
+import { setupDenholm } from "../sprites/obstacles/denholm";
+import { setupCoffeeMachine } from "../sprites/obstacles/coffeeMachine";
 import { setupJen } from "../sprites/jen";
 import { setupRoy } from "../sprites/roy";
 
@@ -22,8 +22,8 @@ export class GameScene extends Scene {
         this.load.spritesheet('denholm', 'assets/denholm_32x50.png', { frameWidth: 32, frameHeight: 50 });
         this.load.spritesheet('postit', 'assets/postit_5x5.png', { frameWidth: 5, frameHeight: 5 });
         this.load.spritesheet('theInternet', 'assets/the_internet_17x14.png', { frameWidth: 17, frameHeight: 14 });
-        this.load.spritesheet('pcError', 'assets/pc_error_40x38.png', {frameWidth: 40, frameHeight: 38});
-        this.load.spritesheet('coffeeTable', 'assets/coffee_table_40x38.png', {frameWidth: 40, frameHeight: 38});
+        this.load.spritesheet('pcError', 'assets/pc_error_40x38.png', { frameWidth: 40, frameHeight: 38 });
+        this.load.spritesheet('coffeeTable', 'assets/coffee_table_40x38.png', { frameWidth: 40, frameHeight: 38 });
     }
 
     create() {
@@ -35,13 +35,13 @@ export class GameScene extends Scene {
 
         this.obstacles = this.physics.add.staticGroup();
         this.cursors = this.input.keyboard.createCursorKeys();
+
+        this.player = setupRoy(this);
+        this.jen = setupJen(this);
+
         setupDenholm(this, 3);
         setupErrorPC(this, 2);
         setupCoffeeMachine(this, 1);
-
-        this.player = setupRoy(this);
-
-        this.jen = setupJen(this);
 
     }
 
