@@ -11,7 +11,7 @@ export function setupCoffeeMachine(scene: GameScene, roomNr: number) {
     coffeeTable.anims.play('brew');
     scene.obstacles.add(coffeeTable);
 
-    scene.physics.overlap(scene.player, coffeeTable, () => {
+    scene.physics.add.overlap(scene.player, coffeeTable, () => {
        // TODO start coffee challenge game
     });
 
