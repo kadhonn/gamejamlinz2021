@@ -1,7 +1,7 @@
-import {GameScene} from "../scenes/gameScene";
+import {GameScene} from "../../scenes/gameScene";
 
-export function setupDenholm(scene: GameScene) {
-    const denholm = scene.physics.add.staticSprite(1200, 450, 'denholm').setScale(4);
+export function setupDenholm(scene: GameScene, roomNr: number) {
+    const denholm = scene.physics.add.staticSprite(400 + roomNr * 800, 450, 'denholm').setScale(4);
     denholm.setBodySize(denholm.width*2*4, denholm.height, true)
     denholm.anims.create({
         key: 'talk',
