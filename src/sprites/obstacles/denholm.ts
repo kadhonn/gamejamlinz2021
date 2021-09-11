@@ -3,7 +3,7 @@ import {GameScene, ROOM_WIDTH} from "../../scenes/gameScene";
 export function setupDenholm(scene: GameScene, roomNr: number) {
     const denholm = scene.physics.add.staticSprite(400 + roomNr * ROOM_WIDTH, 450, 'denholm').setScale(4);
     denholm.setBodySize(denholm.width * 2 * 4, denholm.height, true)
-    scene.createSpeechBubble(400 + roomNr * 800, 270, 120, 80, 'Bla Bla Bla')
+    scene.createSpeechBubble(400 + roomNr * ROOM_WIDTH, 270, 120, 80, 'Bla Bla Bla')
 
     denholm.anims.create({
         key: 'talk',
