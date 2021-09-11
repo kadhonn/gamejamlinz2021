@@ -1,7 +1,7 @@
 import { GameScene } from "../scenes/gameScene";
 
 export function setupRoy(scene: GameScene): Phaser.Types.Physics.Arcade.SpriteWithDynamicBody {
-    const roy = scene.physics.add.sprite(100, 480, 'roy').setScale(4).setDepth(-2);
+    const roy = scene.physics.add.sprite(100, 480, 'roy').setScale(4).setDepth(-2).refreshBody();
     roy.setCollideWorldBounds(true);
     roy.body.setAllowGravity(false);
 
