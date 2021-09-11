@@ -26,7 +26,6 @@ module.exports = {
       template: 'index.html'
     }),
     new CopyPlugin([
-      { from: 'images', to: 'images' },
       { from: 'assets', to: 'assets' },
     ]),
     /*new ESLintPlugin({
