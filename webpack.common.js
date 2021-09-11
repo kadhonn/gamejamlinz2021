@@ -29,9 +29,9 @@ module.exports = {
       { from: 'images', to: 'images' },
       { from: 'assets', to: 'assets' },
     ]),
-    new ESLintPlugin({
+    /*new ESLintPlugin({
       files: '*.ts'
-    }),
+    }),*/
   ],
   output: {
     filename: '[name].bundle.js',
