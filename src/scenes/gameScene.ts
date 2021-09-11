@@ -11,8 +11,8 @@ export class GameScene extends Scene {
     preload() {
         this.load.image('sky', 'assets/sky.png');
         this.load.image('ground', 'assets/platform.png');
-        this.load.spritesheet('roy', 'assets/roy.png', {frameWidth: 20, frameHeight: 39});
-        this.load.spritesheet('jen', 'assets/jen.png', {frameWidth: 25, frameHeight: 51});
+        this.load.spritesheet('roy', 'assets/roy_20x39.png', {frameWidth: 20, frameHeight: 39});
+        this.load.spritesheet('jen', 'assets/jen_25x51.png', {frameWidth: 25, frameHeight: 51});
     }
 
     create() {
