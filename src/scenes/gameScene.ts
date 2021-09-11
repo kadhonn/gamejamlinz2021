@@ -1,5 +1,5 @@
 import {Scene} from "phaser";
-import {setupDenHolm} from "../sprites/denholm";
+import {setupDenholm} from "../sprites/denholm";
 
 export class GameScene extends Scene {
 
@@ -16,7 +16,9 @@ export class GameScene extends Scene {
         this.load.image('moss', 'assets/moss.jpg');
         this.load.spritesheet('roy', 'assets/roy_20x39.png', {frameWidth: 20, frameHeight: 39});
         this.load.spritesheet('jen', 'assets/jen_25x51.png', {frameWidth: 25, frameHeight: 51});
-        this.load.spritesheet('denHolm', 'assets/denholm_28x42.png', {frameWidth: 28, frameHeight: 42});
+        this.load.spritesheet('denholm', 'assets/denholm_32x50.png', {frameWidth: 32, frameHeight: 50});
+        this.load.spritesheet('postit', 'assets/postit_5x5.png', {frameWidth: 5, frameHeight: 5});
+        this.load.spritesheet('theInternet', 'assets/the_internet_17x14.png', {frameWidth: 17, frameHeight: 14});
     }
 
     create() {
@@ -27,7 +29,7 @@ export class GameScene extends Scene {
         }
 
         this.obstacles = this.physics.add.staticGroup();
-        setupDenHolm(this);
+        setupDenholm(this);
 
         this.platforms = this.physics.add.staticGroup();
         for (let i = 0; i < 10; i++) {
