@@ -1,7 +1,9 @@
 import { Scene } from "phaser";
+import { Jen } from "../sprites/jen";
 
 export class GameScene extends Scene {
 
+    jen: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
     player: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
     follower: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
     platforms: Phaser.Physics.Arcade.StaticGroup;
@@ -12,6 +14,7 @@ export class GameScene extends Scene {
         this.load.image('sky', 'assets/sky.png');
         this.load.image('ground', 'assets/platform.png');
         this.load.image('moss', 'assets/moss.jpg');
+        this.load.spritesheet('jen', 'assets/jen.png', { frameWidth: 25, frameHeight: 51 });
     }
 
     create() {
@@ -36,6 +39,33 @@ export class GameScene extends Scene {
 
         this.follower = this.physics.add.sprite(400, 320, 'moss');
         this.follower.body.setAllowGravity(false);
+        //  Collide the player and the stars with the platforms
+        this.physics.add.collider(this.player, this.platforms)
+
+        // setup Jen
+        this.jen = this.physics.add.sprite(100, 450, 'jen');
+
+        this.jen.anims.create({
+            key: 'cry',
+            frames: this.anims.generateFrameNumbers('jen', { start: 0, end: 3 }),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.jen.anims.create({
+            key: 'left',
+            frames: [ { key: 'jen', frame: 6 } ],
+            frameRate: 20
+        });
+
+        this.jen.anims.create({
+            key: 'right',
+            frames: [ { key: 'jen', frame: 7 } ],
+            frameRate: 20
+        });
+
+        this.physics.add.collider(this.jen, this.platforms)
+
     }
 
     update() {
@@ -47,7 +77,7 @@ export class GameScene extends Scene {
         let oldCameraScrollX = this.cameras.main.scrollX;
         this.cameras.main.scrollX = this.player.x - 200;
         this.follower.x += this.cameras.main.scrollX - oldCameraScrollX;
-        
+
         this.updateFollower();
     }
 
