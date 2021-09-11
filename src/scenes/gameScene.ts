@@ -7,7 +7,6 @@ export class GameScene extends Scene {
 
     player: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
     follower: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
-    platforms: Phaser.Physics.Arcade.StaticGroup;
     obstacles: Phaser.Physics.Arcade.StaticGroup;
     gameOver = false;
     cursors: Phaser.Types.Input.Keyboard.CursorKeys;
