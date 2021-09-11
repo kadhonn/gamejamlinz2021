@@ -2,15 +2,14 @@ import { Scene } from "phaser";
 
 export class StartScene extends Scene {
 
-    scoreText;
-
     create() {
-        this.scoreText = this.add.text(300, 200, 'score: 0', { fontSize: '32px', color: '#FFFFFF' });
-        this.scoreText.setInteractive();
-        this.scoreText.setText("Start");
+        let scoreText = this.add.text(300, 200, 'score: 0', { fontSize: '32px', color: '#FFFFFF' });
+        scoreText.setInteractive();
+        scoreText.setText("Start");
 
-        this.scoreText.on('pointerup', function (pointer) {
-            this.scene.game.scene.run("game");
+        scoreText.on('pointerup', function () {
+            this.scene.game.scene.start("game");
+            this.scene.game.scene.stop("start");
         });
     }
 }
