@@ -4,6 +4,7 @@ import { setupDenholm } from "../sprites/obstacles/denholm";
 import { setupCoffeeMachine } from "../sprites/obstacles/coffeeMachine";
 import { setupJen } from "../sprites/jen";
 import { setupRoy } from "../sprites/roy";
+import { createSpeechBubble } from "../sprites/speechBubble";
 
 
 export class GameScene extends Scene {
@@ -14,12 +15,14 @@ export class GameScene extends Scene {
     gameOver = false;
     cursors: Phaser.Types.Input.Keyboard.CursorKeys;
 
+    createSpeechBubble = createSpeechBubble
+
     preload() {
         this.load.image('moss', 'assets/moss.jpg');
         this.load.image('room1', 'assets/room1_400x300.png');
         this.load.spritesheet('roy', 'assets/roy_20x39.png', { frameWidth: 20, frameHeight: 39 });
         this.load.spritesheet('jen', 'assets/jen_25x51.png', { frameWidth: 25, frameHeight: 51 });
-        this.load.spritesheet('denholm', 'assets/denholm_33x50.png', {frameWidth: 33, frameHeight: 50});
+        this.load.spritesheet('denholm', 'assets/denholm_33x50.png', { frameWidth: 33, frameHeight: 50 });
         this.load.spritesheet('postit', 'assets/postit_5x5.png', { frameWidth: 5, frameHeight: 5 });
         this.load.spritesheet('theInternet', 'assets/the_internet_17x14.png', { frameWidth: 17, frameHeight: 14 });
         this.load.spritesheet('pcError', 'assets/pc_error_40x38.png', { frameWidth: 40, frameHeight: 38 });
@@ -39,9 +42,9 @@ export class GameScene extends Scene {
         this.player = setupRoy(this);
         this.jen = setupJen(this);
 
-        setupDenholm(this, 3);
+        setupDenholm(this, 1);
         setupErrorPC(this, 2);
-        setupCoffeeMachine(this, 1);
+        setupCoffeeMachine(this, 3);
 
     }
 
