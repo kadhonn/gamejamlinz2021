@@ -1,5 +1,7 @@
 import {Scene} from "phaser";
-import {setupDenHolm} from "../sprites/denholm";
+import {setupErrorPC} from "../sprites/obstacles/error";
+import {setupDenHolm} from "../sprites/obstacles/denholm";
+import {setupCoffeeMachine} from "../sprites/obstacles/coffeeMachine";
 
 export class GameScene extends Scene {
 
@@ -17,6 +19,8 @@ export class GameScene extends Scene {
         this.load.spritesheet('roy', 'assets/roy_20x39.png', {frameWidth: 20, frameHeight: 39});
         this.load.spritesheet('jen', 'assets/jen_25x51.png', {frameWidth: 25, frameHeight: 51});
         this.load.spritesheet('denHolm', 'assets/denholm_28x42.png', {frameWidth: 28, frameHeight: 42});
+        this.load.spritesheet('pcError', 'assets/pc_error_40x38.png', {frameWidth: 40, frameHeight: 38});
+        this.load.spritesheet('coffeeTable', 'assets/coffee_table_40x38.png', {frameWidth: 40, frameHeight: 38});
     }
 
     create() {
@@ -27,7 +31,9 @@ export class GameScene extends Scene {
         }
 
         this.obstacles = this.physics.add.staticGroup();
-        setupDenHolm(this);
+        setupDenHolm(this, 3);
+        setupErrorPC(this, 2);
+        setupCoffeeMachine(this, 1);
 
         this.platforms = this.physics.add.staticGroup();
         for (let i = 0; i < 10; i++) {
