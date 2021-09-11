@@ -1,7 +1,7 @@
 import { GameScene } from "../scenes/gameScene";
 
 export function setupJen(scene: GameScene): Phaser.Types.Physics.Arcade.SpriteWithDynamicBody {
-    const jen = scene.physics.add.sprite(400, 320, 'jen').setScale(2).setDepth(2);
+    const jen = scene.physics.add.sprite(400, 320, 'jen').setScale(2).setDepth(2).refreshBody();
     jen.body.setAllowGravity(false);
     jen.anims.create({
         key: 'cry',
