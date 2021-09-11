@@ -6,6 +6,9 @@ import { setupJen } from "../sprites/jen";
 import { setupRoy } from "../sprites/roy";
 import { createSpeechBubble } from "../sprites/speechBubble";
 
+export const ROOM_WIDTH = 1400;
+export const ROOM_HEIGHT = 600;
+export const ROOM_COUNT = 4;
 
 export class GameScene extends Scene {
 
@@ -31,9 +34,9 @@ export class GameScene extends Scene {
     }
 
     create() {
-        this.physics.world.setBounds(0, 0, 2400, 600)
+        this.physics.world.setBounds(0, 0, ROOM_WIDTH * ROOM_COUNT, ROOM_HEIGHT)
 
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < ROOM_COUNT; i++) {
             this.addRoom(i);
         }
 
@@ -83,13 +86,27 @@ export class GameScene extends Scene {
     }
 
     addRoom(i: number) {
-        let x = i * 800;
+        let x = i * ROOM_WIDTH;
+        let imageName = 'room1';
         let imageWidth = 400;
+        let imageHeight = 300;
+        let scale = ROOM_HEIGHT / imageHeight;
         let doorOffsetLeft = 22;
-        let doorOffsetRight = 22;
-        this.add.image(x, 300, 'room1').setCrop(0, 0, doorOffsetLeft, 300).setScale(2).setDepth(-1).setOrigin(0, 0.5);
-        this.add.image(x + 400, 300, 'room1').setCrop(doorOffsetLeft, 0, imageWidth - doorOffsetRight, 300).setScale(2).setDepth(-10).setOrigin(0.5, 0.5);
-        this.add.image(x + 800, 300, 'room1').setCrop(imageWidth - doorOffsetRight, 0, imageWidth, 300).setScale(2).setDepth(-1).setOrigin(1, 0.5);
+        let roomMiddleTileStart = 100;
+        let roomMiddleTileEnd = 300;
+        let doorOffsetRight = imageWidth - 22;
+
+        this.add.image(x, ROOM_HEIGHT / 2, imageName).setCrop(0, 0, doorOffsetLeft, imageHeight).setScale(scale).setDepth(-1).setDisplayOrigin(0, imageHeight / 2);
+        this.add.image(x + doorOffsetLeft * scale, ROOM_HEIGHT / 2, imageName).setCrop(doorOffsetLeft, 0, roomMiddleTileStart, imageHeight).setScale(scale).setDepth(-10).setDisplayOrigin(doorOffsetLeft, imageHeight / 2);
+
+
+        for (let i = roomMiddleTileStart * scale; i < ROOM_WIDTH - (imageWidth - roomMiddleTileEnd) * scale; i += (roomMiddleTileEnd - roomMiddleTileStart) * scale) {
+            this.add.image(x + i, ROOM_HEIGHT / 2, imageName).setCrop(roomMiddleTileStart, 0, roomMiddleTileEnd - roomMiddleTileStart, imageHeight).setScale(scale).setDepth(-10).setDisplayOrigin(roomMiddleTileStart, imageHeight / 2);
+        }
+
+
+        this.add.image(x + ROOM_WIDTH - (imageWidth - doorOffsetRight) * scale, ROOM_HEIGHT / 2, imageName).setCrop(roomMiddleTileEnd, 0, doorOffsetRight - roomMiddleTileEnd, imageHeight).setScale(scale).setDepth(-10).setDisplayOrigin(doorOffsetRight, imageHeight / 2);
+        this.add.image(x + ROOM_WIDTH, ROOM_HEIGHT / 2, imageName).setCrop(doorOffsetRight, 0, imageWidth - doorOffsetRight, imageHeight).setScale(scale).setDepth(-1).setDisplayOrigin(imageWidth, imageHeight / 2);
     }
 }
 
