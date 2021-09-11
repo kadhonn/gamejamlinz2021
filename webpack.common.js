@@ -27,6 +27,7 @@ module.exports = {
     }),
     new CopyPlugin([
       { from: 'images', to: 'images' },
+      { from: 'assets', to: 'assets' },
     ]),
     new ESLintPlugin({
       files: '*.ts'
