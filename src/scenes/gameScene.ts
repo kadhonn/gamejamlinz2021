@@ -3,6 +3,7 @@ import { Scene } from "phaser";
 export class GameScene extends Scene {
 
     player: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
+    follower: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
     platforms: Phaser.Physics.Arcade.StaticGroup;
     gameOver = false;
 
@@ -29,10 +30,12 @@ export class GameScene extends Scene {
         this.platforms.create(750, 220, 'ground');
 
         this.player = this.physics.add.sprite(100, 450, 'moss');
-
         this.player.setCollideWorldBounds(true);
 
         this.physics.add.collider(this.player, this.platforms);
+
+        this.follower = this.physics.add.sprite(400, 320, 'moss');
+        this.follower.body.setAllowGravity(false);
     }
 
     update() {
@@ -40,7 +43,23 @@ export class GameScene extends Scene {
             return;
         }
         this.player.setVelocityX(150);
+
+        let oldCameraScrollX = this.cameras.main.scrollX;
         this.cameras.main.scrollX = this.player.x - 200;
+        this.follower.x += this.cameras.main.scrollX - oldCameraScrollX;
+        
+        this.updateFollower();
     }
 
+    updateFollower() {
+        let screenFollowerX = this.follower.x - this.cameras.main.scrollX;
+        let screenFollowerY = this.follower.y - this.cameras.main.scrollY;
+
+        let deltaX = (this.input.activePointer.x - screenFollowerX) / 10;
+        let deltaY = (this.input.activePointer.y - screenFollowerY) / 10;
+
+        this.follower.x = screenFollowerX + deltaX + this.cameras.main.scrollX;
+        this.follower.y = screenFollowerY + deltaY + this.cameras.main.scrollY;
+    }
 }
+
