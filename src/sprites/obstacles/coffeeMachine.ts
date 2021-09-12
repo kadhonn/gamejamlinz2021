@@ -6,30 +6,32 @@ const LINE_HEIGHT = 6;
 const LINE_WIDTH = 40;
 const LINE_DISTANCE = 12;
 let choices = [];
+let timers = [];
 
-function drawSingleProgress(scene: GameScene, xStart: number, yStart: number, progress: number, goal: number) {
-    const line = scene.add.graphics({x: xStart, y: yStart});
+function drawSingleProgress(scene: GameScene, canvas: any, progress: number, goal: number) {
+    canvas.clear();
     for (let i = 0; i < 10; i++) {
         if (progress <= i) {
-            line.fillStyle(0x333333, 1);
+            canvas.fillStyle(0x333333, 1);
         } else {
-            line.fillStyle(0x999999, 1);
+            canvas.fillStyle(0x999999, 1);
         }
 
         if (i === goal) {
-            line.lineStyle(4, 0x00ff00, 1);
-            line.strokeRect(0, (10 - i) * LINE_DISTANCE, LINE_WIDTH, LINE_HEIGHT);
+            canvas.lineStyle(4, 0x00ff00, 1);
+            canvas.strokeRect(0, (10 - i) * LINE_DISTANCE, LINE_WIDTH, LINE_HEIGHT);
         } else {
-            line.lineStyle(4, 0x000000, 1);
-            line.strokeRect(0, (10 - i) * LINE_DISTANCE, LINE_WIDTH, LINE_HEIGHT);
+            canvas.lineStyle(4, 0x000000, 1);
+            canvas.strokeRect(0, (10 - i) * LINE_DISTANCE, LINE_WIDTH, LINE_HEIGHT);
         }
-        line.fillRect(0, (10 - i) * LINE_DISTANCE, LINE_WIDTH, LINE_HEIGHT);
+        canvas.fillRect(0, (10 - i) * LINE_DISTANCE, LINE_WIDTH, LINE_HEIGHT);
     }
 }
 
 function drawProgress(scene: GameScene, xStart: number, yStart: number) {
     const goal = Math.floor(Math.random() * 10);
     let progress = 0;
+    const area = scene.add.graphics({x: xStart, y: yStart})
     const loop = new TimerEvent({
         delay: 200 + Math.random() * 50,
         repeat: -1,
@@ -40,13 +42,15 @@ function drawProgress(scene: GameScene, xStart: number, yStart: number) {
             } else {
                 progress = 0;
             }
-            drawSingleProgress(scene, xStart, yStart, progress, goal);
+            drawSingleProgress(scene, area, progress, goal);
         }
     });
+    timers.push(loop);
     scene.time.addEvent(loop);
     return () => {
         const diff = Math.abs(goal - progress);
-        loop.reset({loop: false});
+        loop.paused = true;
+
         if (diff === 0) {
             choices.push(50);
         } else if (diff === 1 || diff === 10) {
@@ -60,6 +64,7 @@ function drawProgress(scene: GameScene, xStart: number, yStart: number) {
         } else {
             choices.push(-50);
         }
+        handleChoiceUpdate(scene);
     };
 }
 
@@ -75,6 +80,27 @@ function drawScales(scene: GameScene, x: number) {
     drawScale(scene, 900 + x, 'COFFEE');
     drawScale(scene, 900 + x + 70, 'SUGAR');
     drawScale(scene, 900 + x + 140, 'MILK');
+}
+
+let coffeeAccepted = false;
+function handleChoiceUpdate(scene: GameScene) {
+    if (choices.length >= 3) {
+        const score = choices.map((it) => it * 0.33).reduce((a, b) => a + b, 0);
+        if (score < 0) {
+            scene.roy.say('This is disgusting, try again!', 2000);
+            scene.jen.anims.play('cry', false);
+            choices = [];
+            for (let singleTimer of timers) {
+                singleTimer.paused = false;
+            }
+        } else {
+            scene.roy.say('Great thanks Jen!', 2000);
+            scene.time.addEvent(new TimerEvent({
+                delay: 2000, callback: () => scene.increaseSpeed(score)
+            }))
+            coffeeAccepted = true;
+        }
+    }
 }
 
 export function setupCoffeeMachine(scene: GameScene, x: number) {
@@ -106,24 +132,9 @@ export function setupCoffeeMachine(scene: GameScene, x: number) {
     });
     coffeeTable.anims.play('brew');
 
-    let coffeeAccepted = false;
     scene.physics.add.collider(scene.roy.sprite, coffeeTable,
         () => {
-        console.log('roy colliding with coffee machine');
-            if (choices.length >= 3) {
-                const score = choices.map((it) => it * 0.33).reduce((a, b) => a + b, 0);
-                if (score < 0) {
-                    scene.roy.say('This is disgusting, try again!', 2000);
-                    scene.jen.anims.play('cry', false);
-                    drawScales(scene, x);
-                } else {
-                    scene.roy.say('Great thanks Jen!', 2000);
-                    scene.time.addEvent(new TimerEvent({
-                        delay: 2000, callback: () => scene.increaseSpeed(score)
-                    }))
-                    coffeeAccepted = true;
-                }
-            }
+            console.log('roy colliding with coffee machine');
         },
         () => {
             return !coffeeAccepted;
