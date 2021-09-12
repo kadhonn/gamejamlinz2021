@@ -51,7 +51,7 @@ export class SpeechBubble {
         this.bubble.lineBetween(point1X, point1Y, point3X, point3Y);
     
         this.text =  scene.add.text(0, 0, quote, { fontFamily: 'Arial', fontSize: 'medium', color: '#000000', align: 'center', wordWrap: { width: bubbleWidth - (bubblePadding * 2) } });
-        this.text.setDepth(12);
+        this.text.setDepth(11);
 
         this.updatePosition(x, y);
     }
