@@ -29,7 +29,7 @@ export function setupDenholm(scene: GameScene, x: number) {
         () => {
             console.log('Roy colliding with denham');
             scene.roy.updateState(RoyState.shrug)
-            updateSpeechBubble('Bla Bla Bla', scene, denholm);
+            updateDenholmSpeechBubble('Bla Bla Bla', scene, denholm);
         },
         () => {
             return !wearsPaperbag;
@@ -37,6 +37,8 @@ export function setupDenholm(scene: GameScene, x: number) {
 
     setupAvailableTools(scene, denholm);
     scene.setupJenSaysTrigger(x, "Oh no, if the boss starts talking to Roy he will never stop! I need to distract him!");
+    
+    return denholm;
 }
 
 function setupAvailableTools(scene: GameScene, denholm: Sprite) {
@@ -49,25 +51,25 @@ function setupAvailableTools(scene: GameScene, denholm: Sprite) {
         wearsPaperbag = true;
         paperbag.destroy();
         denholm.anims.play('bag', true);
-        updateSpeechBubble('Who has turned off the light?', scene, denholm)
+        updateDenholmSpeechBubble('Who has turned off the light?', scene, denholm)
         scene.roy.updateState(RoyState.walk)
     }, goalArea);
 
     setupTool(scene, denholm.x - 400, 'hammer', () => {
         if (!wearsPaperbag) {
-            updateSpeechBubble('This is not a violent game!', scene, denholm)
+            updateDenholmSpeechBubble('This is not a violent game!', scene, denholm)
         }
     }, goalArea);
 
     setupTool(scene, denholm.x - 300, 'choco', () => {
         if (!wearsPaperbag) {
-            updateSpeechBubble('I gotta watch my figure!', scene, denholm);
+            updateDenholmSpeechBubble('I gotta watch my figure!', scene, denholm);
         }
     }, goalArea);
 
     setupTool(scene, denholm.x - 200, 'money', () => {
         if (!wearsPaperbag) {
-            updateSpeechBubble('What am I supposed to do with these peanuts', scene, denholm);
+            updateDenholmSpeechBubble('What am I supposed to do with these peanuts', scene, denholm);
         }
     }, goalArea);
 }
@@ -85,7 +87,7 @@ function setupTool(scene: GameScene, x: number, texture: string, onCollision: an
     return tool;
 }
 
-function updateSpeechBubble(speech: string, scene: GameScene, denholm: Sprite) {
+export function updateDenholmSpeechBubble(speech: string, scene: GameScene, denholm: Sprite) {
     if (denholmSpeechBubble) {
         denholmSpeechBubble.destroy()
     }

@@ -66,16 +66,18 @@ export class GameScene extends Scene {
 
         let x = 0;
         x = this.addRoom(x);
-        setupPrinterRoom(this, x);
+        setupCoffeeMachine(this, x);
         x = this.addRoom(x);
-        setupDenholm(this, x);
+        const printer = setupPrinterRoom(this, x);
         x = this.addRoom(x);
         setupErrorPC(this, x);
         x = this.addRoom(x);
-        setupCoffeeMachine(this, x);
+        const denholm = setupDenholm(this, x);
         x = this.addRoom(x);
         setupInternet(this, x)
         x = this.addRoom(x);
+
+        printer.addEasterEgg(this, denholm);
 
         this.physics.world.setBounds(0, 0, x, ROOM_HEIGHT)
 
