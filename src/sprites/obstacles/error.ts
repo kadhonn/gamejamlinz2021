@@ -5,11 +5,12 @@ const BORDER = 100;
 
 let postitsGroup: Phaser.Physics.Arcade.Group;
 let errorPc: Phaser.Types.Physics.Arcade.SpriteWithStaticBody;
+let monitor: Phaser.Types.Physics.Arcade.SpriteWithStaticBody;
 let gameDone = false;
 let colliders: Phaser.Physics.Arcade.Collider[] = [];
 
 export function setupErrorPC(scene: GameScene, x: number) {
-    errorPc = scene.physics.add.staticSprite(400 + x, 450, 'pcError').setScale(SCALE).refreshBody();
+    errorPc = scene.physics.add.staticSprite(900 + x, 450, 'pcError').setScale(SCALE).refreshBody();
     errorPc.anims.create({
         key: 'blink',
         frames: scene.anims.generateFrameNumbers('pcError', { start: 0, end: 1 }),
@@ -17,11 +18,12 @@ export function setupErrorPC(scene: GameScene, x: number) {
         repeat: -1,
     });
     errorPc.anims.play('blink');
+    monitor = scene.physics.add.staticSprite(900 + x, 410, 'pcError').setDisplaySize(80,30).setVisible(false).refreshBody();
 
 
     let postits = [];
     for (let i = 0; i < 3; i++) {
-        let postit = scene.physics.add.sprite(x + Phaser.Math.Between(100, 300) + i * 200, Phaser.Math.Between(150, 250), 'postit', i)
+        let postit = scene.physics.add.sprite(x + Phaser.Math.Between(500, 700) + i * 200, Phaser.Math.Between(150, 300), 'postit', i)
             .setScale(6)
             .setRotation(Phaser.Math.Between(0, 10))
             .refreshBody();
@@ -54,10 +56,13 @@ export function updateError(scene: GameScene) {
         return;
     }
     let allIn = true;
-    for (let postit of postitsGroup.children.entries) {
-        if (!scene.physics.overlap(postit, errorPc)) {
+    for (let child of postitsGroup.children.entries) {
+        let postit = child as Phaser.Types.Physics.Arcade.SpriteWithStaticBody;
+        if (!scene.physics.overlap(postit, monitor)) {
             allIn = false;
-            break;
+            postit.setTint();
+        }else{
+            postit.setTint(0x666666);
         }
     }
     if (allIn) {
