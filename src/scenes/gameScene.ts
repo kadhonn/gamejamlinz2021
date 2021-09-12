@@ -72,7 +72,7 @@ export class GameScene extends Scene {
         setupCoffeeMachine(this, x);
         x = this.addRoom(x);
         setupInternet(this, x)
-
+        x = this.addRoom(x);
 
         this.physics.world.setBounds(0, 0, x, ROOM_HEIGHT)
 

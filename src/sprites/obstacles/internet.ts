@@ -36,6 +36,8 @@ export function setupInternet(scene: GameScene, x: number) {
             }
         }))
     });
+
+    scene.setupJenSaysTrigger(x, "We need to keep the internet up to date! Features should go in, but neither bugs no viruses must pass!");
 }
 
 const features = [];
