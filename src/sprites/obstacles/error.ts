@@ -42,7 +42,7 @@ export function setupErrorPC(scene: GameScene, x: number) {
     });
     postitsGroup.addMultiple(postits);
 
-    colliders.push(scene.physics.add.collider(scene.jen, postitsGroup));
+    colliders.push(scene.physics.add.collider(scene.jen.sprite, postitsGroup));
     colliders.push(scene.physics.add.collider(postitsGroup, postitsGroup));
 
     colliders.push(scene.physics.add.collider(scene.roy.sprite, errorPc,

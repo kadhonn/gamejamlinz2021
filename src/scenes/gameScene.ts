@@ -2,12 +2,12 @@ import { Scene } from "phaser";
 import { setupErrorPC, updateError } from "../sprites/obstacles/error";
 import { setupDenholm } from "../sprites/obstacles/denholm";
 import { setupCoffeeMachine } from "../sprites/obstacles/coffeeMachine";
-import { setupJen, updateFollower } from "../sprites/jen";
 import { Roy, setupRoy } from "../sprites/roy";
 import { SpeechBubble } from "../sprites/speechBubble";
 import { createButton } from "../sprites/button";
 import { setupPrinter } from "../sprites/obstacles/printer";
 import {setupInternet} from "../sprites/obstacles/internet";
+import { Jen } from "../sprites/jen";
 
 export const ROOM_WIDTH = 1400;
 export const ROOM_HEIGHT = 600;
@@ -19,7 +19,7 @@ export const SCALE = 4;
 export class GameScene extends Scene {
 
     roy: Roy
-    jen: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
+    jen: Jen;
     obstacles: Phaser.Physics.Arcade.StaticGroup;
     gameOver = false;
     cursors: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -50,7 +50,7 @@ export class GameScene extends Scene {
         this.cursors = this.input.keyboard.createCursorKeys();
 
         this.roy = new Roy(this);
-        this.jen = setupJen(this);
+        this.jen = new Jen(this);
 
         this.roy.say('Please Jen, help me get through the office', 2000);
 
@@ -70,6 +70,8 @@ export class GameScene extends Scene {
         this.physics.world.setBounds(0, 0, x, ROOM_HEIGHT)
 
         this.cameras.main.scrollX = 0;
+
+        this.jen.say("OH NOOOO", 3000);
     }
 
     update() {
@@ -77,7 +79,7 @@ export class GameScene extends Scene {
             return;
         }
 
-        updateFollower(this);
+        this.jen.update();
         updateError(this);
         this.updateCamera();
     }
