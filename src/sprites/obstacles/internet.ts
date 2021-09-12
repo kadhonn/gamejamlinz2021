@@ -2,6 +2,10 @@ import {GameScene, SCALE} from "../../scenes/gameScene";
 import TimerEvent = Phaser.Time.TimerEvent;
 
 export function setupInternet(scene: GameScene, x: number) {
+    const moss = scene.physics.add.staticSprite(800 + x, 465, 'moss')
+        .setScale(SCALE)
+        .refreshBody();
+
     const theInternet = scene.physics.add.staticSprite(700 + x, 450, 'theInternet')
         .setScale(SCALE + 1)
         .refreshBody();
