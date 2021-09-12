@@ -1,6 +1,6 @@
-import { GameScene, SCALE } from "../../scenes/gameScene";
-import { RoyState } from "../roy";
-import { SpeechBubble } from "../speechBubble";
+import {GameScene, SCALE} from "../../scenes/gameScene";
+import {RoyState} from "../roy";
+import {SpeechBubble} from "../speechBubble";
 import Sprite = Phaser.GameObjects.Sprite;
 
 let wearsPaperbag = false;
@@ -12,13 +12,13 @@ export function setupDenholm(scene: GameScene, x: number) {
 
     denholm.anims.create({
         key: 'talk',
-        frames: scene.anims.generateFrameNumbers('denholm', { start: 0, end: 1 }),
+        frames: scene.anims.generateFrameNumbers('denholm', {start: 0, end: 1}),
         frameRate: 8,
         repeat: -1,
     });
     denholm.anims.create({
         key: 'bag',
-        frames: scene.anims.generateFrameNumbers('denholm', { start: 2, end: 3 }),
+        frames: scene.anims.generateFrameNumbers('denholm', {start: 2, end: 3}),
         frameRate: 8,
         repeat: -1,
     })
@@ -27,6 +27,7 @@ export function setupDenholm(scene: GameScene, x: number) {
 
     scene.physics.add.collider(scene.roy.sprite, denholm,
         () => {
+            console.log('Roy colliding with denham');
             scene.roy.updateState(RoyState.shrug)
             updateSpeechBubble('Bla Bla Bla', scene, denholm);
         },
@@ -65,7 +66,7 @@ function setupAvailableTools(scene: GameScene, denholm: Sprite) {
 }
 
 function setupTool(scene: GameScene, x: number, texture: string, onCollision: any, goalArea: Sprite) {
-    scene.add.text(x - 20, 330, texture, { align: 'left', fontSize: '25', fontFamily: 'Mono' });
+    scene.add.text(x - 20, 330, texture, {align: 'left', fontSize: '25', fontFamily: 'Mono'});
 
     const tool = scene.physics.add.sprite(x, 400, texture)
         .setScale(SCALE)

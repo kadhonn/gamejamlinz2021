@@ -21,7 +21,7 @@ class Printer {
     }
 
     setupPrinter(scene: GameScene, x: number) {
-        const printerSprite = scene.physics.add.staticSprite(400 + x, 450, 'printer').setScale(SCALE);
+        const printerSprite = scene.physics.add.staticSprite(1000 + x, 450, 'printer').setScale(SCALE);
         printerSprite.anims.create({
             key: 'standard',
             frames: scene.anims.generateFrameNumbers('printer', { start: 0, end: 0 }),
