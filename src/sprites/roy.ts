@@ -15,6 +15,13 @@ export function setupRoy(scene: GameScene): Phaser.Types.Physics.Arcade.SpriteWi
     });
 
     roy.anims.create({
+        key: 'chill',
+        frames: scene.anims.generateFrameNumbers('roy', { start: 2, end: 2 }),
+        frameRate: 1,
+        repeat: -1,
+    });
+
+    roy.anims.create({
         key: 'shrug',
         frames: scene.anims.generateFrameNumbers('roy', { start: 0, end: 1 }),
         frameRate: 8,

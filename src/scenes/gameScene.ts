@@ -5,10 +5,12 @@ import { setupCoffeeMachine } from "../sprites/obstacles/coffeeMachine";
 import { setupJen } from "../sprites/jen";
 import { setupRoy } from "../sprites/roy";
 import { createSpeechBubble } from "../sprites/speechBubble";
+import {createButton} from "../sprites/button";
 
 export const ROOM_WIDTH = 1400;
 export const ROOM_HEIGHT = 600;
 export const ROOM_COUNT = 4;
+export const BASE_SPEED = 150;
 
 export class GameScene extends Scene {
 
@@ -17,12 +19,15 @@ export class GameScene extends Scene {
     obstacles: Phaser.Physics.Arcade.StaticGroup;
     gameOver = false;
     cursors: Phaser.Types.Input.Keyboard.CursorKeys;
+    speed = BASE_SPEED;
 
     createSpeechBubble = createSpeechBubble
+    createButton = createButton
 
     preload() {
         this.load.image('moss', 'assets/moss.jpg');
         this.load.image('room1', 'assets/room1_400x300.png');
+        this.load.image('coffeeButton', 'assets/coffee-button.png');
         this.load.spritesheet('roy', 'assets/roy_20x39.png', { frameWidth: 20, frameHeight: 39 });
         this.load.spritesheet('jen', 'assets/jen_25x51.png', { frameWidth: 25, frameHeight: 51 });
         this.load.spritesheet('denholm', 'assets/denholm_33x50.png', { frameWidth: 33, frameHeight: 50 });
@@ -46,9 +51,9 @@ export class GameScene extends Scene {
         this.player = setupRoy(this);
         this.jen = setupJen(this);
 
-        setupDenholm(this, 1);
+        setupDenholm(this, 3);
         setupErrorPC(this, 2);
-        setupCoffeeMachine(this, 3);
+        setupCoffeeMachine(this, 0);
 
     }
 
@@ -56,7 +61,7 @@ export class GameScene extends Scene {
         if (this.gameOver) {
             return;
         }
-        this.player.setVelocityX(150);
+        this.player.setVelocityX(this.speed);
 
         let oldCameraScrollX = this.cameras.main.scrollX;
         this.cameras.main.scrollX = this.player.x - 200;
@@ -104,9 +109,24 @@ export class GameScene extends Scene {
             this.add.image(x + i, ROOM_HEIGHT / 2, imageName).setCrop(roomMiddleTileStart, 0, roomMiddleTileEnd - roomMiddleTileStart, imageHeight).setScale(scale).setDepth(-10).setDisplayOrigin(roomMiddleTileStart, imageHeight / 2);
         }
 
-
         this.add.image(x + ROOM_WIDTH - (imageWidth - doorOffsetRight) * scale, ROOM_HEIGHT / 2, imageName).setCrop(roomMiddleTileEnd, 0, doorOffsetRight - roomMiddleTileEnd, imageHeight).setScale(scale).setDepth(-10).setDisplayOrigin(doorOffsetRight, imageHeight / 2);
         this.add.image(x + ROOM_WIDTH, ROOM_HEIGHT / 2, imageName).setCrop(doorOffsetRight, 0, imageWidth - doorOffsetRight, imageHeight).setScale(scale).setDepth(-1).setDisplayOrigin(imageWidth, imageHeight / 2);
     }
+
+    createText(x: number, y: number, text: string) {
+        this.add.text(x, y, text, { fontFamily: 'Monaco', fontSize: '40', color: '#000000', align: 'center'});
+    }
+
+    increaseSpeed(deltaSpeed: number) {
+        console.log("increase speed by " + deltaSpeed);
+        this.speed += deltaSpeed;
+        this.time.addEvent({
+            delay: 3000,
+            callback: () => {
+                this.speed = BASE_SPEED;
+            }
+        })
+    }
+
 }
 
