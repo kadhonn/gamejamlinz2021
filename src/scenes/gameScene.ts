@@ -12,6 +12,8 @@ export const ROOM_HEIGHT = 600;
 export const ROOM_COUNT = 4;
 export const BASE_SPEED = 150;
 
+export const SCALE = 4;
+
 export class GameScene extends Scene {
 
     roy: Roy
@@ -26,11 +28,13 @@ export class GameScene extends Scene {
     preload() {
         this.load.image('moss', 'assets/moss.jpg');
         this.load.image('room1', 'assets/room1_400x300.png');
-        this.load.image('coffeeButton', 'assets/coffee-button.png');
+        this.load.image('paperbag', 'assets/paperbag_11x13.png');
+        this.load.image('hammer', 'assets/hammer.png');
+        this.load.image('money', 'assets/money.png');
+        this.load.image('choco', 'assets/choco.png');
         this.load.spritesheet('roy', 'assets/roy_20x39.png', { frameWidth: 20, frameHeight: 39 });
         this.load.spritesheet('jen', 'assets/jen_25x51.png', { frameWidth: 25, frameHeight: 51 });
         this.load.spritesheet('denholm', 'assets/denholm_33x50.png', { frameWidth: 33, frameHeight: 50 });
-        this.load.spritesheet('paperbag', 'assets/paperbag_11x13.png', { frameWidth: 11, frameHeight: 13 });
         this.load.spritesheet('postit', 'assets/postit_5x5.png', { frameWidth: 5, frameHeight: 5 });
         this.load.spritesheet('theInternet', 'assets/the_internet_17x14.png', { frameWidth: 17, frameHeight: 14 });
         this.load.spritesheet('pcError', 'assets/pc_error_40x38.png', { frameWidth: 40, frameHeight: 38 });
