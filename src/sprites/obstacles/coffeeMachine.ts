@@ -1,4 +1,5 @@
 import {GameScene, ROOM_WIDTH} from "../../scenes/gameScene";
+import { Roy, RoyState } from "../roy";
 import TimerEvent = Phaser.Time.TimerEvent;
 
 const LINE_HEIGHT = 6;
@@ -80,10 +81,10 @@ export function setupCoffeeMachine(scene: GameScene, x: number) {
 
     let drawingStarted = false;
     let speedIncreaseApplied = false;
-        scene.physics.add.collider(scene.player, coffeeTable,
+        scene.physics.add.collider(scene.roy.sprite, coffeeTable,
         () => {
             if (!drawingStarted) {
-                scene.player.anims.play('chill', true);
+                scene.roy.updateState(RoyState.chill)
                 drawScale(scene, 900 + x, 'COFFEE');
                 drawScale(scene, 900 + x + 70, 'SUGAR');
                 drawScale(scene, 900 + x + 140, 'MILK');
@@ -92,7 +93,7 @@ export function setupCoffeeMachine(scene: GameScene, x: number) {
         },
         () => {
             if (choices.length >= 3 && !speedIncreaseApplied) {
-                scene.player.anims.play('right', true);
+                scene.roy.updateState(RoyState.walk)
                 scene.increaseSpeed(choices.map((it) => it * 0.33).reduce((a, b) => a + b, 0));
                 speedIncreaseApplied = true;
             }

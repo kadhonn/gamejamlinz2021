@@ -1,46 +1,57 @@
-export function createSpeechBubble(x: number, y: number, width: number, height: number, quote: string) {
-    const bubbleWidth = width;
-    const bubbleHeight = height;
-    const bubblePadding = 10;
-    const arrowHeight = bubbleHeight / 4;
+import { GameScene } from "../scenes/gameScene";
 
-    const bubble = this.add.graphics({ x: x, y: y });
+export class SpeechBubble {
 
-    //  Bubble shadow
-    bubble.fillStyle(0x222222, 0.5);
-    bubble.fillRoundedRect(6, 6, bubbleWidth, bubbleHeight, 16);
+    bubble: Phaser.GameObjects.Graphics;
+    text: Phaser.GameObjects.Text;
 
-    //  Bubble color
-    bubble.fillStyle(0xffffff, 1);
+    constructor(scene: GameScene, x: number, y: number, width: number, height: number, quote: string) {
+        const bubbleWidth = width;
+        const bubbleHeight = height;
+        const bubblePadding = 10;
+        const arrowHeight = bubbleHeight / 4;
+    
+        this.bubble = scene.add.graphics({ x: x, y: y });
+    
+        //  Bubble shadow
+        this.bubble.fillStyle(0x222222, 0.5);
+        this.bubble.fillRoundedRect(6, 6, bubbleWidth, bubbleHeight, 16);
+    
+        //  Bubble color
+        this.bubble.fillStyle(0xffffff, 1);
+    
+        //  Bubble outline line style
+        this.bubble.lineStyle(4, 0x565656, 1);
+    
+        //  Bubble shape and outline
+        this.bubble.strokeRoundedRect(0, 0, bubbleWidth, bubbleHeight, 16);
+        this.bubble.fillRoundedRect(0, 0, bubbleWidth, bubbleHeight, 16);
+    
+        //  Calculate arrow coordinates
+        var point1X = Math.floor(bubbleWidth / 7);
+        var point1Y = bubbleHeight;
+        var point2X = Math.floor((bubbleWidth / 7) * 2);
+        var point2Y = bubbleHeight;
+        var point3X = Math.floor(bubbleWidth / 7);
+        var point3Y = Math.floor(bubbleHeight + arrowHeight);
+    
+        //  Bubble arrow shadow
+        this.bubble.lineStyle(4, 0x222222, 0.5);
+        this.bubble.lineBetween(point2X - 1, point2Y + 6, point3X + 2, point3Y);
+    
+        //  Bubble arrow fill
+        this.bubble.fillTriangle(point1X, point1Y, point2X, point2Y, point3X, point3Y);
+        this.bubble.lineStyle(2, 0x565656, 1);
+        this.bubble.lineBetween(point2X, point2Y, point3X, point3Y);
+        this.bubble.lineBetween(point1X, point1Y, point3X, point3Y);
+    
+        this.text =  scene.add.text(0, 0, quote, { fontFamily: 'Arial', fontSize: 'medium', color: '#000000', align: 'center', wordWrap: { width: bubbleWidth - (bubblePadding * 2) } });
+        const textBounds = this.text.getBounds();
+        this.text.setPosition(this.bubble.x + (bubbleWidth / 2) - (textBounds.width / 2), this.bubble.y + (bubbleHeight / 2) - (textBounds.height / 2));
+    }
 
-    //  Bubble outline line style
-    bubble.lineStyle(4, 0x565656, 1);
-
-    //  Bubble shape and outline
-    bubble.strokeRoundedRect(0, 0, bubbleWidth, bubbleHeight, 16);
-    bubble.fillRoundedRect(0, 0, bubbleWidth, bubbleHeight, 16);
-
-    //  Calculate arrow coordinates
-    var point1X = Math.floor(bubbleWidth / 7);
-    var point1Y = bubbleHeight;
-    var point2X = Math.floor((bubbleWidth / 7) * 2);
-    var point2Y = bubbleHeight;
-    var point3X = Math.floor(bubbleWidth / 7);
-    var point3Y = Math.floor(bubbleHeight + arrowHeight);
-
-    //  Bubble arrow shadow
-    bubble.lineStyle(4, 0x222222, 0.5);
-    bubble.lineBetween(point2X - 1, point2Y + 6, point3X + 2, point3Y);
-
-    //  Bubble arrow fill
-    bubble.fillTriangle(point1X, point1Y, point2X, point2Y, point3X, point3Y);
-    bubble.lineStyle(2, 0x565656, 1);
-    bubble.lineBetween(point2X, point2Y, point3X, point3Y);
-    bubble.lineBetween(point1X, point1Y, point3X, point3Y);
-
-    const content = this.add.text(0, 0, quote, { fontFamily: 'Arial', fontSize: 14, color: '#000000', align: 'center', wordWrap: { width: bubbleWidth - (bubblePadding * 2) } });
-
-    const b = content.getBounds();
-
-    content.setPosition(bubble.x + (bubbleWidth / 2) - (b.width / 2), bubble.y + (bubbleHeight / 2) - (b.height / 2));
+    destroy() {
+        this.bubble.destroy()
+        this.text.destroy()
+    }
 }

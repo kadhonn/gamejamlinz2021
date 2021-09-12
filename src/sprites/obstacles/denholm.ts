@@ -19,8 +19,8 @@ export function setupDenholm(scene: GameScene, x: number) {
 
     denholm.anims.play('talk');
 
-    scene.physics.add.collider(scene.player, denholm, () => {
-        scene.createSpeechBubble(400 + x, 270, 120, 80, 'Bla Bla Bla')
+    scene.physics.add.collider(scene.roy.sprite, denholm, () => {
+        const bubble = scene.createSpeechBubble(400 + x, 270, 120, 80, 'Bla Bla Bla')
     });
 
     scene.obstacles.add(denholm);

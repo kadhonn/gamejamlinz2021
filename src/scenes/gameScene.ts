@@ -3,9 +3,9 @@ import { setupErrorPC } from "../sprites/obstacles/error";
 import { setupDenholm } from "../sprites/obstacles/denholm";
 import { setupCoffeeMachine } from "../sprites/obstacles/coffeeMachine";
 import { setupJen } from "../sprites/jen";
-import { setupRoy } from "../sprites/roy";
-import { createSpeechBubble } from "../sprites/speechBubble";
-import {createButton} from "../sprites/button";
+import { Roy, setupRoy } from "../sprites/roy";
+import { SpeechBubble } from "../sprites/speechBubble";
+import { createButton } from "../sprites/button";
 
 export const ROOM_WIDTH = 1400;
 export const ROOM_HEIGHT = 600;
@@ -14,14 +14,13 @@ export const BASE_SPEED = 150;
 
 export class GameScene extends Scene {
 
-    player: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
+    roy: Roy
     jen: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
     obstacles: Phaser.Physics.Arcade.StaticGroup;
     gameOver = false;
     cursors: Phaser.Types.Input.Keyboard.CursorKeys;
     speed = BASE_SPEED;
 
-    createSpeechBubble = createSpeechBubble
     createButton = createButton
 
     preload() {
@@ -41,12 +40,13 @@ export class GameScene extends Scene {
     create() {
         this.physics.world.setBounds(0, 0, ROOM_WIDTH * ROOM_COUNT, ROOM_HEIGHT)
 
-
         this.obstacles = this.physics.add.staticGroup();
         this.cursors = this.input.keyboard.createCursorKeys();
 
-        this.player = setupRoy(this);
+        this.roy = new Roy(this);
         this.jen = setupJen(this);
+
+        this.roy.say('Please Jen, help me get through the office', 3000);
 
         let x = 0;
         x = this.addRoom(x);
@@ -63,10 +63,9 @@ export class GameScene extends Scene {
         if (this.gameOver) {
             return;
         }
-        this.player.setVelocityX(this.speed);
 
         let oldCameraScrollX = this.cameras.main.scrollX;
-        this.cameras.main.scrollX = this.player.x - 200;
+        this.cameras.main.scrollX = this.roy.sprite.x - 200;
         this.jen.x += this.cameras.main.scrollX - oldCameraScrollX;
 
         this.updateFollower();
@@ -117,19 +116,22 @@ export class GameScene extends Scene {
     }
 
     createText(x: number, y: number, text: string) {
-        this.add.text(x, y, text, { fontFamily: 'Monaco', fontSize: '40', color: '#000000', align: 'center'});
+        this.add.text(x, y, text, { fontFamily: 'Monaco', fontSize: '40', color: '#000000', align: 'center' });
     }
 
     increaseSpeed(deltaSpeed: number) {
         console.log("increase speed by " + deltaSpeed);
-        this.speed += deltaSpeed;
+        this.roy.increaseSpeedBy(deltaSpeed);
         this.time.addEvent({
             delay: 3000,
             callback: () => {
-                this.speed = BASE_SPEED;
+                this.roy.resetSpeed();
             }
         })
     }
 
+    createSpeechBubble(x: number, y: number, width: number, height: number, quote: string) {
+        return new SpeechBubble(this, x, y, width, height, quote)
+    }
 }
 
