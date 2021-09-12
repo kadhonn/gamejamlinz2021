@@ -36,6 +36,7 @@ export function setupDenholm(scene: GameScene, x: number) {
         });
 
     setupAvailableTools(scene, denholm);
+    scene.setupJenSaysTrigger(x, "Oh no, if the boss starts talking to Roy he will never stop! I need to distract him!");
 }
 
 function setupAvailableTools(scene: GameScene, denholm: Sprite) {
