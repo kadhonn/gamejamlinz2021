@@ -8,7 +8,7 @@ let denholmSpeechBubble: SpeechBubble
 
 export function setupDenholm(scene: GameScene, x: number) {
     const denholm = scene.physics.add.staticSprite(1000 + x, 450, 'denholm').setScale(SCALE);
-    denholm.setBodySize(denholm.width * 2 * SCALE, denholm.height, true) // to make roy stop a little before denholm
+    denholm.setBodySize(denholm.width * 2 * SCALE, denholm.height * SCALE, true) // to make roy stop a little before denholm
 
     denholm.anims.create({
         key: 'talk',
@@ -72,6 +72,8 @@ function setupAvailableTools(scene: GameScene, denholm: Sprite) {
             updateDenholmSpeechBubble('What am I supposed to do with these peanuts', scene, denholm);
         }
     }, goalArea);
+
+    return goalArea;
 }
 
 function setupTool(scene: GameScene, x: number, texture: string, onCollision: any, goalArea: Sprite) {

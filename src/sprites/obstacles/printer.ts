@@ -28,7 +28,7 @@ class Printer {
         this.fireExtinguisherSpraySprite.setVisible(false)
         this.fireExtinguisherSprite = this.setupFireExtinguisher(scene, x, this.fireExtinguisherSpraySprite);
 
-        scene.physics.add.collider(this.printerSprite, this.scene.roy.sprite, 
+        scene.physics.add.collider(this.printerSprite, this.scene.roy.sprite,
             () => {
                 this.scene.roy.updateState(RoyState.shrug);
             },
@@ -36,18 +36,21 @@ class Printer {
                 return !PRINTER_GONE;
             }
         );
-        
+
         scene.physics.add.collider(this.printerSprite, this.fireExtinguisherSpraySprite,
             () => {
-                console.log('Extinguishing fire!');
-                STARTED_EXTINGUISHING = true;
-                this.printerSprite.anims.play('burn_down');
-                const that = this
-                this.printerSprite.once('animationcomplete', function () {
-                    that.printerSprite.anims.play('gone');
-                    that.scene.roy.say("Well this is not my problem anymore", 2000);
-                    PRINTER_GONE = true;
-                });
+                if (!PRINTER_GONE) {
+                    console.log('Extinguishing fire!');
+                    STARTED_EXTINGUISHING = true;
+                    this.printerSprite.anims.play('burn_down');
+                    const that = this
+                    this.printerSprite.once('animationcomplete', function () {
+                        that.printerSprite.anims.play('gone');
+                        that.scene.roy.say("Well this is not my problem anymore", 2000);
+                        PRINTER_GONE = true;
+                        STARTED_EXTINGUISHING = false;
+                    });
+                }
             },
             () => {
                 return !STARTED_EXTINGUISHING
@@ -56,8 +59,10 @@ class Printer {
     }
 
     addEasterEgg(scene: GameScene, denholm: Sprite) {
-        scene.physics.add.collider(this.fireExtinguisherSpraySprite, denholm,
+        console.log("add easter egg")
+        scene.physics.add.collider(denholm, this.fireExtinguisherSpraySprite,
             () => {
+                console.log('extinguish denholm')
                 updateDenholmSpeechBubble("All your base are belong to us!", scene, denholm);
             }
         );
