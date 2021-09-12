@@ -19,13 +19,13 @@ export class Jen {
         });
 
         this.sprite.anims.create({
-        key: 'talk',
-        frames: scene.anims.generateFrameNumbers('jen', { start: 4, end: 5 }),
-        frameRate: 4,
-        repeat: -1
-    });
+            key: 'talk',
+            frames: scene.anims.generateFrameNumbers('jen', { start: 4, end: 5 }),
+            frameRate: 4,
+            repeat: -1
+        });
 
-    jen.anims.create({
+        this.sprite.anims.create({
             key: 'left',
             frames: [{ key: 'jen', frame: 7 }],
             frameRate: 20
