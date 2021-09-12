@@ -29,7 +29,7 @@ export function setupDenholm(scene: GameScene, x: number) {
             return !wearsPaperbag;
         });
 
-    const paperbag = scene.physics.add.sprite(400 + roomNr * ROOM_WIDTH + 500, 400, 'paperbag')
+    const paperbag = scene.physics.add.sprite(x + 1000, 400, 'paperbag')
         .setScale(SCALE)
         .setInteractive();
     paperbag.body.setAllowGravity(false);
@@ -40,7 +40,7 @@ export function setupDenholm(scene: GameScene, x: number) {
         gameObject.y = dragY;
     });
 
-    const goalArea = scene.physics.add.sprite(410 + roomNr * ROOM_WIDTH, 400, 'paperbag')
+    const goalArea = scene.physics.add.sprite(x + 410, 400, 'paperbag')
         .setVisible(false)
         .setScale(SCALE);
     goalArea.body.setAllowGravity(false);
