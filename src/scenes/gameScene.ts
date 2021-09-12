@@ -57,7 +57,6 @@ export class GameScene extends Scene {
         this.roy.say('Please Jen, help me get through the office', 2000);
 
         let x = 0;
-        setupInternet(this, x)
         x = this.addRoom(x);
         setupPrinterRoom(this, x);
         x = this.addRoom(x);
@@ -67,13 +66,12 @@ export class GameScene extends Scene {
         x = this.addRoom(x);
         setupCoffeeMachine(this, x);
         x = this.addRoom(x);
+        setupInternet(this, x)
 
 
         this.physics.world.setBounds(0, 0, x, ROOM_HEIGHT)
 
         this.cameras.main.scrollX = 0;
-
-        this.jen.say("OH NOOOO", 3000);
     }
 
     update() {
@@ -135,6 +133,15 @@ export class GameScene extends Scene {
             let newX = this.currentCameraRoom * ROOM_WIDTH + ROOM_WIDTH / 2;
             this.cameras.main.pan(newX, ROOM_HEIGHT / 2, 600, "Sine");
         }
+    }
+
+    setupJenSaysTrigger(x: number, quote: string) {
+        const colliderSprite = this.physics.add.staticSprite(x + 100, 400, "jen").setOrigin(0, 0.5).setVisible(false).refreshBody();
+        const collider = this.physics.add.overlap(this.roy.sprite, colliderSprite, () => {
+            colliderSprite.destroy();
+            collider.destroy();
+            this.jen.say(quote, 6000);
+        })
     }
 }
 

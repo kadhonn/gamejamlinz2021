@@ -63,7 +63,7 @@ export class Jen {
 
     say(quote: string, duration: number) {
         if (this.speechBubble == null) {
-            this.speechBubble = new SpeechBubble(this.scene, this.sprite.x, this.sprite.y, 120, 80, quote);
+            this.speechBubble = new SpeechBubble(this.scene, this.sprite.x, this.sprite.y, 200, 140, quote);
             this.updateSpeechBubble();
             this.scene.time.addEvent(new Phaser.Time.TimerEvent({
                 delay: duration,
@@ -76,7 +76,7 @@ export class Jen {
 
     updateSpeechBubble() {
         if (this.speechBubble != null) {
-            this.speechBubble.updatePosition(this.sprite.x - 10, this.sprite.y - 160);
+            this.speechBubble.updatePosition(this.sprite.x - 20, this.sprite.y - 230);
         }
     }
 

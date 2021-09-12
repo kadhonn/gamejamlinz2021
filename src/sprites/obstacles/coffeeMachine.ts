@@ -140,4 +140,5 @@ export function setupCoffeeMachine(scene: GameScene, x: number) {
             return !coffeeAccepted;
         });
 
+    scene.setupJenSaysTrigger(x, "Roy can never choose which coffee to make... if I make the correct one maybe he will go faster?");
 }

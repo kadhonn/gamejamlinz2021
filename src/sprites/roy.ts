@@ -74,7 +74,7 @@ export class Roy {
 }
 
 export function setupRoy(scene: GameScene): Phaser.Types.Physics.Arcade.SpriteWithDynamicBody {
-    const roySprite = scene.physics.add.sprite(100, 480, 'roy').setScale(SCALE).setDepth(+2).refreshBody();
+    const roySprite = scene.physics.add.sprite(700, 480, 'roy').setScale(SCALE).setDepth(2).refreshBody();
 
     roySprite.setCollideWorldBounds(true);
     roySprite.body.setAllowGravity(false);

@@ -49,6 +49,7 @@ export function setupErrorPC(scene: GameScene, x: number) {
         () => {
             scene.roy.updateState(RoyState.shrug);
         }));
+    scene.setupJenSaysTrigger(x, "Roy will never go past an flashing error willingly, I must hide it!");
 }
 
 export function updateError(scene: GameScene) {
