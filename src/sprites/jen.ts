@@ -24,3 +24,22 @@ export function setupJen(scene: GameScene): Phaser.Types.Physics.Arcade.SpriteWi
 
     return jen;
 }
+
+export function updateFollower(scene: GameScene) {
+    let screenFollowerX = scene.jen.x - scene.cameras.main.scrollX;
+    let screenFollowerY = scene.jen.y - scene.cameras.main.scrollY;
+
+    let xOffset = 0;
+    if (scene.input.activePointer.x > screenFollowerX) {
+        xOffset = -20;
+        scene.jen.anims.play("right", true);
+    } else {
+        xOffset = 20;
+        scene.jen.anims.play("left", true)
+    }
+
+    let deltaX = ((scene.input.activePointer.x + xOffset) - screenFollowerX);
+    let deltaY = ((scene.input.activePointer.y + 30) - screenFollowerY);
+
+    scene.jen.setVelocity(deltaX * 5, deltaY * 5)
+}
