@@ -1,4 +1,5 @@
 import { GameScene, ROOM_WIDTH, SCALE } from "../../scenes/gameScene";
+import { RoyState } from "../roy";
 import Sprite = Phaser.GameObjects.Sprite;
 
 export function setupPrinterRoom(scene: GameScene, x: number) {
@@ -8,6 +9,7 @@ export function setupPrinterRoom(scene: GameScene, x: number) {
 const SPRAY_X_OFFSET = 52;
 const SPRAY_Y_OFFSET = -30;
 let STARTED_EXTINGUISHING = false;
+let PRINTER_GONE = false;
 
 class Printer {
 
@@ -24,14 +26,26 @@ class Printer {
         this.fireExtinguisherSpraySprite.setVisible(false)
         this.fireExtinguisherSprite = this.setupFireExtinguisher(scene, x, this.fireExtinguisherSpraySprite);
 
+        scene.physics.add.collider(this.printerSprite, this.scene.roy.sprite, 
+            () => {
+                this.scene.roy.updateState(RoyState.shrug);
+            },
+            () => {
+                return !PRINTER_GONE;
+            }
+        );
+        
         scene.physics.add.collider(this.printerSprite, this.fireExtinguisherSpraySprite,
             () => {
                 console.log('Extinguishing fire!');
-                STARTED_EXTINGUISHING = true
+                STARTED_EXTINGUISHING = true;
                 this.printerSprite.anims.play('burn_down');
+                const that = this
                 this.printerSprite.once('animationcomplete', function () {
-                    this.anims.play('gone');
-                }, this.printerSprite);
+                    that.printerSprite.anims.play('gone');
+                    that.scene.roy.say("Well this is not my problem anymore", 2000);
+                    PRINTER_GONE = true;
+                });
             },
             () => {
                 return !STARTED_EXTINGUISHING
