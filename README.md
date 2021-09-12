@@ -1,6 +1,6 @@
 # Game Jam Linz 2021
 
-This game was made for the GameJam Linz 2021: https://itch.io/jam/game-jam-linz-2021
+This game was made with Phaser 3 ( http://phaser.io/ ) for the GameJam Linz 2021: https://itch.io/jam/game-jam-linz-2021
 
 # A close companion
 
@@ -13,3 +13,7 @@ You play as Jen who acts as his guardian angel and can manipulate things by push
 * Pia Gerhofer
 * Matthias 'Yolgie' Holzinger
 * Matthias Ableidinger
+
+# Acknowledgements
+
+Great thanks to Rainer Stropek for his Phaser Base Template and Tutorial: https://linz.coderdojo.net/uebungsanleitungen/programmieren/web/space-shooter/
