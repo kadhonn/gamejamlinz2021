@@ -1,8 +1,8 @@
 # Game Jam Linz 2021
 
-This game was made with Phaser 3 ( http://phaser.io/ ) for the GameJam Linz 2021: https://itch.io/jam/game-jam-linz-2021
+This game was made with Phaser 3 ( http://phaser.io/ ) for the GameJam Linz 2021: https://itch.io/jam/game-jam-linz-2021 with the theme: A close companion
 
-# A close companion
+# Jen saves the day!​
 
 Roy had a really shitty day already, and now there is an incoming hacker attack! Help him on his way to the The Internet™ to defend the attack. Many distractions lay on the way!
 
