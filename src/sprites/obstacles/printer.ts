@@ -1,9 +1,11 @@
 import { GameScene, ROOM_WIDTH, SCALE } from "../../scenes/gameScene";
 import { RoyState } from "../roy";
+import { updateDenholmSpeechBubble } from "./denholm";
 import Sprite = Phaser.GameObjects.Sprite;
 
 export function setupPrinterRoom(scene: GameScene, x: number) {
     const printer = new Printer(scene, x);
+    return printer;
 }
 
 const SPRAY_X_OFFSET = 52;
@@ -49,6 +51,14 @@ class Printer {
             },
             () => {
                 return !STARTED_EXTINGUISHING
+            }
+        );
+    }
+
+    addEasterEgg(scene: GameScene, denholm: Sprite) {
+        scene.physics.add.collider(this.fireExtinguisherSpraySprite, denholm,
+            () => {
+                updateDenholmSpeechBubble("All your base are belong to us!", scene, denholm);
             }
         );
     }
