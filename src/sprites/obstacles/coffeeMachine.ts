@@ -1,11 +1,11 @@
 import {GameScene, SCALE} from "../../scenes/gameScene";
-import { RoyState } from "../roy";
+import {RoyState} from "../roy";
 import TimerEvent = Phaser.Time.TimerEvent;
 
 const LINE_HEIGHT = 6;
 const LINE_WIDTH = 40;
 const LINE_DISTANCE = 12;
-const choices = [];
+let choices = [];
 
 function drawSingleProgress(scene: GameScene, xStart: number, yStart: number, progress: number, goal: number) {
     const line = scene.add.graphics({x: xStart, y: yStart});
@@ -69,8 +69,35 @@ function drawScale(scene: GameScene, x: number, label: string) {
     scene.createButton(x, 220, 'CHOOSE', stopLoop);
 }
 
+function drawScales(scene: GameScene, x: number) {
+    scene.roy.updateState(RoyState.chill)
+    choices = [];
+    drawScale(scene, 900 + x, 'COFFEE');
+    drawScale(scene, 900 + x + 70, 'SUGAR');
+    drawScale(scene, 900 + x + 140, 'MILK');
+}
+
 export function setupCoffeeMachine(scene: GameScene, x: number) {
-    const coffeeTable = scene.physics.add.staticSprite(1000 + x, 450, 'coffeeTable').setScale(SCALE + 1).refreshBody();
+    const entryArea = scene.physics.add.staticSprite(x + 300, 450, 'paperbag')
+        .setScale(SCALE)
+        .refreshBody()
+        .setVisible(false);
+    let entryAnimation = false;
+    scene.physics.add.collider(scene.roy.sprite, entryArea,
+        () => {
+            if (!entryAnimation) {
+                entryAnimation = true;
+                scene.roy.say('Jen, could you make me a coffee?', 2000);
+                drawScales(scene, x);
+            }
+        },
+        () => {
+            return !entryAnimation;
+        })
+
+    const coffeeTable = scene.physics.add.staticSprite(1000 + x, 450, 'coffeeTable')
+        .setScale(SCALE + 1)
+        .refreshBody();
     coffeeTable.anims.create({
         key: 'brew',
         frames: scene.anims.generateFrameNumbers('coffeeTable', {start: 0, end: 1}),
@@ -79,25 +106,27 @@ export function setupCoffeeMachine(scene: GameScene, x: number) {
     });
     coffeeTable.anims.play('brew');
 
-    let drawingStarted = false;
-    let speedIncreaseApplied = false;
-        scene.physics.add.collider(scene.roy.sprite, coffeeTable,
+    let coffeeAccepted = false;
+    scene.physics.add.collider(scene.roy.sprite, coffeeTable,
         () => {
-            if (!drawingStarted) {
-                scene.roy.updateState(RoyState.chill)
-                drawScale(scene, 900 + x, 'COFFEE');
-                drawScale(scene, 900 + x + 70, 'SUGAR');
-                drawScale(scene, 900 + x + 140, 'MILK');
-                drawingStarted = true;
+        console.log('roy colliding with coffee machine');
+            if (choices.length >= 3) {
+                const score = choices.map((it) => it * 0.33).reduce((a, b) => a + b, 0);
+                if (score < 0) {
+                    scene.roy.say('This is disgusting, try again!', 2000);
+                    scene.jen.anims.play('cry', false);
+                    drawScales(scene, x);
+                } else {
+                    scene.roy.say('Great thanks Jen!', 2000);
+                    scene.time.addEvent(new TimerEvent({
+                        delay: 2000, callback: () => scene.increaseSpeed(score)
+                    }))
+                    coffeeAccepted = true;
+                }
             }
         },
         () => {
-            if (choices.length >= 3 && !speedIncreaseApplied) {
-                scene.roy.updateState(RoyState.walk)
-                scene.increaseSpeed(choices.map((it) => it * 0.33).reduce((a, b) => a + b, 0));
-                speedIncreaseApplied = true;
-            }
-            return choices.length < 3;
+            return !coffeeAccepted;
         });
 
 }
