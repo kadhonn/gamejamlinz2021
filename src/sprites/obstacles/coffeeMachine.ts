@@ -88,7 +88,7 @@ function handleChoiceUpdate(scene: GameScene) {
         const score = choices.map((it) => it * 0.33).reduce((a, b) => a + b, 0);
         if (score < 0) {
             scene.roy.say('This is disgusting, try again!', 2000);
-            scene.jen.anims.play('cry', false);
+            scene.jen.sprite.anims.play('cry', false);
             choices = [];
             for (let singleTimer of timers) {
                 singleTimer.paused = false;
