@@ -43,9 +43,6 @@ export class GameScene extends Scene {
     create() {
         this.physics.world.setBounds(0, 0, ROOM_WIDTH * ROOM_COUNT, ROOM_HEIGHT)
 
-        for (let i = 0; i < ROOM_COUNT; i++) {
-            this.addRoom(i);
-        }
 
         this.obstacles = this.physics.add.staticGroup();
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -53,9 +50,14 @@ export class GameScene extends Scene {
         this.player = setupRoy(this);
         this.jen = setupJen(this);
 
-        setupDenholm(this, 0);
-        setupErrorPC(this, 2);
-        setupCoffeeMachine(this, 1);
+        let x = 0;
+        x = this.addRoom(x);
+        setupDenholm(this, x);
+        x = this.addRoom(x);
+        setupErrorPC(this, x);
+        x = this.addRoom(x);
+        setupCoffeeMachine(this, x);
+        x = this.addRoom(x);
 
     }
 
@@ -92,8 +94,7 @@ export class GameScene extends Scene {
         this.jen.y = screenFollowerY + deltaY + this.cameras.main.scrollY;
     }
 
-    addRoom(i: number) {
-        let x = i * ROOM_WIDTH;
+    addRoom(x: number, roomWidth = ROOM_WIDTH) {
         let imageName = 'room1';
         let imageWidth = 400;
         let imageHeight = 300;
@@ -107,12 +108,14 @@ export class GameScene extends Scene {
         this.add.image(x + doorOffsetLeft * scale, ROOM_HEIGHT / 2, imageName).setCrop(doorOffsetLeft, 0, roomMiddleTileStart, imageHeight).setScale(scale).setDepth(-10).setDisplayOrigin(doorOffsetLeft, imageHeight / 2);
 
 
-        for (let i = roomMiddleTileStart * scale; i < ROOM_WIDTH - (imageWidth - roomMiddleTileEnd) * scale; i += (roomMiddleTileEnd - roomMiddleTileStart) * scale) {
+        for (let i = roomMiddleTileStart * scale; i < roomWidth - (imageWidth - roomMiddleTileEnd) * scale; i += (roomMiddleTileEnd - roomMiddleTileStart) * scale) {
             this.add.image(x + i, ROOM_HEIGHT / 2, imageName).setCrop(roomMiddleTileStart, 0, roomMiddleTileEnd - roomMiddleTileStart, imageHeight).setScale(scale).setDepth(-10).setDisplayOrigin(roomMiddleTileStart, imageHeight / 2);
         }
 
-        this.add.image(x + ROOM_WIDTH - (imageWidth - doorOffsetRight) * scale, ROOM_HEIGHT / 2, imageName).setCrop(roomMiddleTileEnd, 0, doorOffsetRight - roomMiddleTileEnd, imageHeight).setScale(scale).setDepth(-10).setDisplayOrigin(doorOffsetRight, imageHeight / 2);
-        this.add.image(x + ROOM_WIDTH, ROOM_HEIGHT / 2, imageName).setCrop(doorOffsetRight, 0, imageWidth - doorOffsetRight, imageHeight).setScale(scale).setDepth(-1).setDisplayOrigin(imageWidth, imageHeight / 2);
+        this.add.image(x + roomWidth - (imageWidth - doorOffsetRight) * scale, ROOM_HEIGHT / 2, imageName).setCrop(roomMiddleTileEnd, 0, doorOffsetRight - roomMiddleTileEnd, imageHeight).setScale(scale).setDepth(-10).setDisplayOrigin(doorOffsetRight, imageHeight / 2);
+        this.add.image(x + roomWidth, ROOM_HEIGHT / 2, imageName).setCrop(doorOffsetRight, 0, imageWidth - doorOffsetRight, imageHeight).setScale(scale).setDepth(-1).setDisplayOrigin(imageWidth, imageHeight / 2);
+
+        return x + roomWidth;
     }
 
     createText(x: number, y: number, text: string) {

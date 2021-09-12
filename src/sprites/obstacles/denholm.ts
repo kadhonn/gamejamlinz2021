@@ -1,7 +1,7 @@
 import {GameScene, ROOM_WIDTH, SCALE} from "../../scenes/gameScene";
 
-export function setupDenholm(scene: GameScene, roomNr: number) {
-    const denholm = scene.physics.add.staticSprite(400 + roomNr * ROOM_WIDTH, 450, 'denholm').setScale(SCALE);
+export function setupDenholm(scene: GameScene, x: number) {
+    const denholm = scene.physics.add.staticSprite(400 + x, 450, 'denholm').setScale(SCALE);
     denholm.setBodySize(denholm.width * 2 * 4, denholm.height, true)
 
     denholm.anims.create({
@@ -23,7 +23,7 @@ export function setupDenholm(scene: GameScene, roomNr: number) {
     scene.physics.add.collider(scene.player, denholm,
         () => {
             scene.player.anims.play('shrug', true);
-            scene.createSpeechBubble(400 + roomNr * ROOM_WIDTH, 270, 120, 80, 'Bla Bla Bla');
+            scene.createSpeechBubble(400 + x, 270, 120, 80, 'Bla Bla Bla');
         },
         () => {
             return !wearsPaperbag;

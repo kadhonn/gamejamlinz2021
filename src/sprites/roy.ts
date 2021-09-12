@@ -28,6 +28,13 @@ export function setupRoy(scene: GameScene): Phaser.Types.Physics.Arcade.SpriteWi
         repeat: -1,
     });
 
+    roy.anims.create({
+        key: 'talk',
+        frames: scene.anims.generateFrameNumbers('roy', { frames: [0,5] }),
+        frameRate: 8,
+        repeat: -1,
+    });
+
     roy.anims.play('right', true);
     scene.physics.add.collider(roy, scene.obstacles, () => {
         roy.anims.play('shrug', true);
