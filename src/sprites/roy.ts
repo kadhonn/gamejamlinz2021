@@ -37,6 +37,22 @@ export class Roy {
         })
     }
 
+    sayAndChill(speech: string, duration: number) {
+        const xPos = this.sprite.x
+        const yPos = 300
+
+        this.updateState(RoyState.talk)
+        const bubble = this.scene.createSpeechBubble(xPos, yPos, 120, 80, speech)
+
+        this.scene.time.addEvent({
+            delay: duration,
+            callback: () => {
+                this.updateState(RoyState.chill)
+                bubble.destroy()
+            }
+        })
+    }
+
     increaseSpeedBy(deltaSpeed: number) {
         this.updateSpeed(BASE_SPEED + deltaSpeed)
     }

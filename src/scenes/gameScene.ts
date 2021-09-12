@@ -11,7 +11,6 @@ import {setupInternet} from "../sprites/obstacles/internet";
 
 export const ROOM_WIDTH = 1400;
 export const ROOM_HEIGHT = 600;
-export const ROOM_COUNT = 4;
 export const BASE_SPEED = 150;
 
 export const SCALE = 4;
@@ -35,11 +34,17 @@ export class GameScene extends Scene {
         this.load.image('hammer', 'assets/hammer.png');
         this.load.image('money', 'assets/money.png');
         this.load.image('choco', 'assets/choco.png');
+        this.load.image('bug', 'assets/bug.png');
+        this.load.image('bug2', 'assets/bug2.png');
+        this.load.image('butterfly', 'assets/butterfly.png');
+        this.load.image('butterfly2', 'assets/butterfly2.png');
+        this.load.image('butterfly3', 'assets/butterfly3.png');
+        this.load.image('virus', 'assets/virus.png');
         this.load.spritesheet('roy', 'assets/roy_20x39.png', { frameWidth: 20, frameHeight: 39 });
         this.load.spritesheet('jen', 'assets/jen_25x51.png', { frameWidth: 25, frameHeight: 51 });
         this.load.spritesheet('denholm', 'assets/denholm_33x50.png', { frameWidth: 33, frameHeight: 50 });
         this.load.spritesheet('postit', 'assets/postit_5x5.png', { frameWidth: 5, frameHeight: 5 });
-        this.load.spritesheet('theInternet', 'assets/the_internet_17x14.png', { frameWidth: 17, frameHeight: 14 });
+        this.load.spritesheet('theInternet', 'assets/the_internet_17x30.png', { frameWidth: 17, frameHeight: 30 });
         this.load.spritesheet('pcError', 'assets/pc_error_40x38.png', { frameWidth: 40, frameHeight: 38 });
         this.load.spritesheet('coffeeTable', 'assets/coffee_table_40x38.png', { frameWidth: 40, frameHeight: 38 });
         this.load.spritesheet('printer', 'assets/printer_28x40.png', { frameWidth: 28, frameHeight: 40 });

@@ -87,7 +87,7 @@ function handleChoiceUpdate(scene: GameScene) {
     if (choices.length >= 3) {
         const score = choices.map((it) => it * 0.33).reduce((a, b) => a + b, 0);
         if (score < 0) {
-            scene.roy.say('This is disgusting, try again!', 2000);
+            scene.roy.sayAndChill('This is disgusting, try again!', 2000);
             scene.jen.anims.play('cry', false);
             choices = [];
             for (let singleTimer of timers) {
@@ -134,6 +134,7 @@ export function setupCoffeeMachine(scene: GameScene, x: number) {
 
     scene.physics.add.collider(scene.roy.sprite, coffeeTable,
         () => {
+        scene.roy.updateState(RoyState.chill);
             console.log('roy colliding with coffee machine');
         },
         () => {

@@ -1,4 +1,5 @@
 import {GameScene, SCALE} from "../../scenes/gameScene";
+import TimerEvent = Phaser.Time.TimerEvent;
 
 export function setupInternet(scene: GameScene, x: number) {
     const theInternet = scene.physics.add.staticSprite(700 + x, 450, 'theInternet')
@@ -24,4 +25,52 @@ export function setupInternet(scene: GameScene, x: number) {
     });
     theInternet.anims.play('alive');
 
+    scene.physics.add.collider(theInternet, scene.roy.sprite, () => {
+        scene.roy.sayAndChill('Looks like we need to protect the internet again', 2000);
+        scene.time.addEvent(new TimerEvent({
+            repeat: -1,
+            loop: true,
+            delay: 400,
+            callback: () => {
+                generateElement(scene, x)
+            }
+        }))
+    });
+}
+
+const features = [];
+const bugs = [];
+
+function generateElement(scene: GameScene, xStart: number) {
+    const xPosition = xStart + 200 + Math.random() * 1000;
+    const type = getRandomType();
+
+    const element = scene.physics.add.sprite(xPosition, -20, type)
+        .setScale(SCALE)
+        .setVelocity(-50 + Math.random() * 100, 100)
+        .refreshBody();
+    element.body.setAllowGravity(false);
+
+    if (type === 'bug' || type === 'bug2' || type === 'virus') {
+        bugs.push(element)
+    } else {
+        features.push(element);
+    }
+}
+
+function getRandomType() {
+    const type = Math.ceil(Math.random() * 6);
+    if (type === 1) {
+        return 'bug';
+    } else if (type === 2) {
+        return 'bug2';
+    } else if (type === 3) {
+        return 'virus';
+    } else if (type === 4) {
+        return 'butterfly';
+    } else if (type === 5) {
+        return 'butterfly2';
+    } else if (type === 6) {
+        return 'butterfly3';
+    }
 }
