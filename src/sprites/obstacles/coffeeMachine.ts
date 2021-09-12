@@ -68,8 +68,8 @@ function drawScale(scene: GameScene, x: number, label: string) {
     scene.createButton(x, 220, 'CHOOSE', stopLoop);
 }
 
-export function setupCoffeeMachine(scene: GameScene, roomNr: number) {
-    const coffeeTable = scene.physics.add.staticSprite(1000 + roomNr * ROOM_WIDTH, 450, 'coffeeTable').setScale(5).refreshBody();
+export function setupCoffeeMachine(scene: GameScene, x: number) {
+    const coffeeTable = scene.physics.add.staticSprite(1000 + x, 450, 'coffeeTable').setScale(5).refreshBody();
     coffeeTable.anims.create({
         key: 'brew',
         frames: scene.anims.generateFrameNumbers('coffeeTable', {start: 0, end: 1}),
@@ -84,9 +84,9 @@ export function setupCoffeeMachine(scene: GameScene, roomNr: number) {
         () => {
             if (!drawingStarted) {
                 scene.player.anims.play('chill', true);
-                drawScale(scene, 900 + roomNr * ROOM_WIDTH, 'COFFEE');
-                drawScale(scene, 900 + roomNr * ROOM_WIDTH + 70, 'SUGAR');
-                drawScale(scene, 900 + roomNr * ROOM_WIDTH + 140, 'MILK');
+                drawScale(scene, 900 + x, 'COFFEE');
+                drawScale(scene, 900 + x + 70, 'SUGAR');
+                drawScale(scene, 900 + x + 140, 'MILK');
                 drawingStarted = true;
             }
         },
