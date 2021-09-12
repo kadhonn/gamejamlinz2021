@@ -9,7 +9,7 @@ export class Jen {
 
     constructor(scene: GameScene) {
         this.scene = scene;
-        this.sprite = scene.physics.add.sprite(400, 320, 'jen').setScale(2).setDepth(2).refreshBody();
+        this.sprite = scene.physics.add.sprite(400, 320, 'jen').setScale(2).setDepth(20).refreshBody();
         this.sprite.body.setAllowGravity(false);
         this.sprite.anims.create({
             key: 'cry',
