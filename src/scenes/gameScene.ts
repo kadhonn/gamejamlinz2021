@@ -6,6 +6,7 @@ import { setupJen } from "../sprites/jen";
 import { Roy, setupRoy } from "../sprites/roy";
 import { SpeechBubble } from "../sprites/speechBubble";
 import { createButton } from "../sprites/button";
+import { setupPrinter } from "../sprites/obstacles/printer";
 
 export const ROOM_WIDTH = 1400;
 export const ROOM_HEIGHT = 600;
@@ -39,6 +40,7 @@ export class GameScene extends Scene {
         this.load.spritesheet('theInternet', 'assets/the_internet_17x14.png', { frameWidth: 17, frameHeight: 14 });
         this.load.spritesheet('pcError', 'assets/pc_error_40x38.png', { frameWidth: 40, frameHeight: 38 });
         this.load.spritesheet('coffeeTable', 'assets/coffee_table_40x38.png', { frameWidth: 40, frameHeight: 38 });
+        this.load.spritesheet('printer', 'assets/printer_28x40.png', { frameWidth: 28, frameHeight: 40 });
     }
 
     create() {
@@ -59,6 +61,8 @@ export class GameScene extends Scene {
         setupErrorPC(this, x);
         x = this.addRoom(x);
         setupCoffeeMachine(this, x);
+        x = this.addRoom(x);
+        setupPrinter(this, x);
         x = this.addRoom(x);
 
     }
