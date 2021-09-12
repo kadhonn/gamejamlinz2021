@@ -61,7 +61,7 @@ export class GameScene extends Scene {
 
         this.roy.say('Please Jen, help me get through the office', 2000);
         this.jen.say(
-            'Roy had a really rough week so far. And I heard there is an attack on THE INTERNET coming as well, we better help him make it through this friday!', 5000
+            'Roy had a really rough week so far. And I heard there is an attack on THE INTERNET coming as well, we better help him make it through this friday.', 5000
         );
 
         let x = 0;
