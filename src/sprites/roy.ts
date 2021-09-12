@@ -1,7 +1,7 @@
-import { GameScene } from "../scenes/gameScene";
+import {GameScene, SCALE} from "../scenes/gameScene";
 
 export function setupRoy(scene: GameScene): Phaser.Types.Physics.Arcade.SpriteWithDynamicBody {
-    const roy = scene.physics.add.sprite(100, 480, 'roy').setScale(4).setDepth(-2).refreshBody();
+    const roy = scene.physics.add.sprite(100, 480, 'roy').setScale(SCALE).setDepth(-2).refreshBody();
     scene.createSpeechBubble(140, 300, 120, 80, 'Jen, help me get through the office')
     
     roy.setCollideWorldBounds(true);

@@ -1,4 +1,4 @@
-import {GameScene, ROOM_WIDTH} from "../../scenes/gameScene";
+import {GameScene, ROOM_WIDTH, SCALE} from "../../scenes/gameScene";
 import TimerEvent = Phaser.Time.TimerEvent;
 
 const LINE_HEIGHT = 6;
@@ -69,7 +69,7 @@ function drawScale(scene: GameScene, x: number, label: string) {
 }
 
 export function setupCoffeeMachine(scene: GameScene, roomNr: number) {
-    const coffeeTable = scene.physics.add.staticSprite(1000 + roomNr * ROOM_WIDTH, 450, 'coffeeTable').setScale(5).refreshBody();
+    const coffeeTable = scene.physics.add.staticSprite(1000 + roomNr * ROOM_WIDTH, 450, 'coffeeTable').setScale(SCALE + 1).refreshBody();
     coffeeTable.anims.create({
         key: 'brew',
         frames: scene.anims.generateFrameNumbers('coffeeTable', {start: 0, end: 1}),
