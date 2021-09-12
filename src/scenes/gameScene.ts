@@ -50,7 +50,7 @@ export class GameScene extends Scene {
         this.roy = new Roy(this);
         this.jen = setupJen(this);
 
-        this.roy.say('Please Jen, help me get through the office', 3000);
+        this.roy.say('Please Jen, help me get through the office', 2000);
 
         let x = 0;
         x = this.addRoom(x);

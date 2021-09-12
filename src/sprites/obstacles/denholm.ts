@@ -1,22 +1,24 @@
-import {GameScene, SCALE} from "../../scenes/gameScene";
+import { GameScene, SCALE } from "../../scenes/gameScene";
 import { RoyState } from "../roy";
+import { SpeechBubble } from "../speechBubble";
 import Sprite = Phaser.GameObjects.Sprite;
 
 let wearsPaperbag = false;
+let denholmSpeechBubble: SpeechBubble
 
 export function setupDenholm(scene: GameScene, x: number) {
     const denholm = scene.physics.add.staticSprite(1000 + x, 450, 'denholm').setScale(SCALE);
-    denholm.setBodySize(denholm.width * 2 * 4, denholm.height, true)
+    denholm.setBodySize(denholm.width * 2 * SCALE, denholm.height, true) // to make roy stop a little before denholm
 
     denholm.anims.create({
         key: 'talk',
-        frames: scene.anims.generateFrameNumbers('denholm', {start: 0, end: 1}),
+        frames: scene.anims.generateFrameNumbers('denholm', { start: 0, end: 1 }),
         frameRate: 8,
         repeat: -1,
     });
     denholm.anims.create({
         key: 'bag',
-        frames: scene.anims.generateFrameNumbers('denholm', {start: 2, end: 3}),
+        frames: scene.anims.generateFrameNumbers('denholm', { start: 2, end: 3 }),
         frameRate: 8,
         repeat: -1,
     })
@@ -26,7 +28,7 @@ export function setupDenholm(scene: GameScene, x: number) {
     scene.physics.add.collider(scene.roy.sprite, denholm,
         () => {
             scene.roy.updateState(RoyState.shrug)
-            scene.createSpeechBubble(denholm.x, 270, 120, 80, 'Bla Bla Bla');
+            updateSpeechBubble('Bla Bla Bla', scene, denholm);
         },
         () => {
             return !wearsPaperbag;
@@ -45,24 +47,25 @@ function setupAvailableTools(scene: GameScene, denholm: Sprite) {
         wearsPaperbag = true;
         paperbag.destroy();
         denholm.anims.play('bag', true);
+        updateSpeechBubble('Who has turned off the light?', scene, denholm)
         scene.roy.updateState(RoyState.walk)
     }, goalArea);
 
     setupTool(scene, denholm.x - 400, 'hammer', () => {
-        scene.createSpeechBubble(denholm.x, 270, 120, 80, 'This is not a violent game!');
+        updateSpeechBubble('This is not a violent game!', scene, denholm)
     }, goalArea);
 
     setupTool(scene, denholm.x - 300, 'choco', () => {
-        scene.createSpeechBubble(denholm.x, 270, 120, 80, 'I gotta watch my figure!');
+        updateSpeechBubble('I gotta watch my figure!', scene, denholm);
     }, goalArea);
 
     setupTool(scene, denholm.x - 200, 'money', () => {
-        scene.createSpeechBubble(denholm.x, 270, 120, 80, 'What am I supposed to do with these peanuts');
+        updateSpeechBubble('What am I supposed to do with these peanuts', scene, denholm);
     }, goalArea);
 }
 
 function setupTool(scene: GameScene, x: number, texture: string, onCollision: any, goalArea: Sprite) {
-    scene.add.text(x - 20, 330, texture, {align: 'left', fontSize: '25', fontFamily: 'Mono'});
+    scene.add.text(x - 20, 330, texture, { align: 'left', fontSize: '25', fontFamily: 'Mono' });
 
     const tool = scene.physics.add.sprite(x, 400, texture)
         .setScale(SCALE)
@@ -77,4 +80,11 @@ function setupTool(scene: GameScene, x: number, texture: string, onCollision: an
 
     scene.physics.add.overlap(goalArea, tool, onCollision);
     return tool;
+}
+
+function updateSpeechBubble(speech: string, scene: GameScene, denholm: Sprite) {
+    if (denholmSpeechBubble) {
+        denholmSpeechBubble.destroy()
+    }
+    scene.createSpeechBubble(denholm.x, 270, 120, 80, speech);
 }
