@@ -96,7 +96,7 @@ export class GameScene extends Scene {
         let roomMiddleTileEnd = 300;
         let doorOffsetRight = imageWidth - 22;
 
-        this.add.image(x, ROOM_HEIGHT / 2, imageName).setCrop(0, 0, doorOffsetLeft, imageHeight).setScale(scale).setDepth(-1).setDisplayOrigin(0, imageHeight / 2);
+        this.add.image(x, ROOM_HEIGHT / 2, imageName).setCrop(0, 0, doorOffsetLeft, imageHeight).setScale(scale).setDepth(3).setDisplayOrigin(0, imageHeight / 2);
         this.add.image(x + doorOffsetLeft * scale, ROOM_HEIGHT / 2, imageName).setCrop(doorOffsetLeft, 0, roomMiddleTileStart, imageHeight).setScale(scale).setDepth(-10).setDisplayOrigin(doorOffsetLeft, imageHeight / 2);
 
 
@@ -105,7 +105,7 @@ export class GameScene extends Scene {
         }
 
         this.add.image(x + roomWidth - (imageWidth - doorOffsetRight) * scale, ROOM_HEIGHT / 2, imageName).setCrop(roomMiddleTileEnd, 0, doorOffsetRight - roomMiddleTileEnd, imageHeight).setScale(scale).setDepth(-10).setDisplayOrigin(doorOffsetRight, imageHeight / 2);
-        this.add.image(x + roomWidth, ROOM_HEIGHT / 2, imageName).setCrop(doorOffsetRight, 0, imageWidth - doorOffsetRight, imageHeight).setScale(scale).setDepth(-1).setDisplayOrigin(imageWidth, imageHeight / 2);
+        this.add.image(x + roomWidth, ROOM_HEIGHT / 2, imageName).setCrop(doorOffsetRight, 0, imageWidth - doorOffsetRight, imageHeight).setScale(scale).setDepth(3).setDisplayOrigin(imageWidth, imageHeight / 2);
 
         return x + roomWidth;
     }
