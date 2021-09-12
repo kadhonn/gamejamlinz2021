@@ -74,11 +74,6 @@ function setupTool(scene: GameScene, x: number, texture: string, onCollision: an
     tool.body.setAllowGravity(false);
 
     scene.input.setDraggable(tool)
-    scene.input.on('drag', function (pointer, gameObject, dragX, dragY) {
-        gameObject.x = dragX;
-        gameObject.y = dragY;
-    });
-
     scene.physics.add.overlap(goalArea, tool, onCollision);
     return tool;
 }

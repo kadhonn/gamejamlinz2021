@@ -44,7 +44,7 @@ export class GameScene extends Scene {
         this.load.spritesheet('coffeeTable', 'assets/coffee_table_40x38.png', { frameWidth: 40, frameHeight: 38 });
         this.load.spritesheet('printer', 'assets/printer_28x40.png', { frameWidth: 28, frameHeight: 40 });
         this.load.image('fireExtinguisher', 'assets/fire_extinguisher_13x21.png');
-        this.load.spritesheet('fireExtinguisherSpray', 'assets/fire_extinguisher_spray_12x12.png', { frameWidth: 12, frameHeight: 12 });
+        this.load.spritesheet('fireExtinguisherSpray', 'assets/fire_extinguisher_spray_14x12.png', { frameWidth: 14, frameHeight: 12 });
     }
 
     create() {
@@ -72,6 +72,11 @@ export class GameScene extends Scene {
         this.physics.world.setBounds(0, 0, x, ROOM_HEIGHT)
 
         this.cameras.main.scrollX = 0;
+        
+        this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
+            gameObject.x = dragX;
+            gameObject.y = dragY;
+        });
 
         this.jen.say("OH NOOOO", 3000);
     }
