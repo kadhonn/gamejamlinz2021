@@ -1,8 +1,8 @@
 import { Scene } from "phaser";
-import { setupErrorPC } from "../sprites/obstacles/error";
+import { setupErrorPC, updateError } from "../sprites/obstacles/error";
 import { setupDenholm } from "../sprites/obstacles/denholm";
 import { setupCoffeeMachine } from "../sprites/obstacles/coffeeMachine";
-import { setupJen } from "../sprites/jen";
+import { setupJen, updateFollower } from "../sprites/jen";
 import { Roy, setupRoy } from "../sprites/roy";
 import { SpeechBubble } from "../sprites/speechBubble";
 import { createButton } from "../sprites/button";
@@ -23,6 +23,7 @@ export class GameScene extends Scene {
     gameOver = false;
     cursors: Phaser.Types.Input.Keyboard.CursorKeys;
     speed = BASE_SPEED;
+    currentCameraRoom = 0;
 
     createButton = createButton
 
@@ -44,8 +45,6 @@ export class GameScene extends Scene {
     }
 
     create() {
-        this.physics.world.setBounds(0, 0, ROOM_WIDTH * ROOM_COUNT, ROOM_HEIGHT)
-
         this.obstacles = this.physics.add.staticGroup();
         this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -65,6 +64,9 @@ export class GameScene extends Scene {
         setupPrinter(this, x);
         x = this.addRoom(x);
 
+        this.physics.world.setBounds(0, 0, x, ROOM_HEIGHT)
+
+        this.cameras.main.scrollX = 0;
     }
 
     update() {
@@ -72,31 +74,9 @@ export class GameScene extends Scene {
             return;
         }
 
-        let oldCameraScrollX = this.cameras.main.scrollX;
-        this.cameras.main.scrollX = this.roy.sprite.x - 200;
-        this.jen.x += this.cameras.main.scrollX - oldCameraScrollX;
-
-        this.updateFollower();
-    }
-
-    updateFollower() {
-        let screenFollowerX = this.jen.x - this.cameras.main.scrollX;
-        let screenFollowerY = this.jen.y - this.cameras.main.scrollY;
-
-        let xOffset = 0;
-        if (this.input.activePointer.x > screenFollowerX) {
-            xOffset = -20;
-            this.jen.anims.play("right", true);
-        } else {
-            this.jen.anims.play("left", true)
-            xOffset = 20;
-        }
-
-        let deltaX = ((this.input.activePointer.x + xOffset) - screenFollowerX) / 10;
-        let deltaY = ((this.input.activePointer.y + 30) - screenFollowerY) / 10;
-
-        this.jen.x = screenFollowerX + deltaX + this.cameras.main.scrollX;
-        this.jen.y = screenFollowerY + deltaY + this.cameras.main.scrollY;
+        updateFollower(this);
+        updateError(this);
+        this.updateCamera();
     }
 
     addRoom(x: number, roomWidth = ROOM_WIDTH) {
@@ -140,6 +120,14 @@ export class GameScene extends Scene {
 
     createSpeechBubble(x: number, y: number, width: number, height: number, quote: string) {
         return new SpeechBubble(this, x, y, width, height, quote)
+    }
+
+    updateCamera() {
+        if (this.roy.sprite.x > (this.currentCameraRoom + 1) * ROOM_WIDTH) {
+            this.currentCameraRoom++;
+            let newX = this.currentCameraRoom * ROOM_WIDTH + ROOM_WIDTH / 2;
+            this.cameras.main.pan(newX, ROOM_HEIGHT / 2, 600, "Sine");
+        }
     }
 }
 
