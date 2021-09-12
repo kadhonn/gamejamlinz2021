@@ -26,7 +26,7 @@ export class Roy {
         const yPos = 300
         
         this.updateState(RoyState.talk)
-        const bubble = this.scene.createSpeechBubble(xPos, yPos, 120, 80, 'Jen, help me get through the office')
+        const bubble = this.scene.createSpeechBubble(xPos, yPos, 120, 80, speech)
 
         this.scene.time.addEvent({
             delay: duration,
