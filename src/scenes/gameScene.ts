@@ -11,7 +11,6 @@ import { Jen } from "../sprites/jen";
 
 export const ROOM_WIDTH = 1400;
 export const ROOM_HEIGHT = 600;
-export const ROOM_COUNT = 4;
 export const BASE_SPEED = 150;
 
 export const SCALE = 4;
@@ -35,11 +34,17 @@ export class GameScene extends Scene {
         this.load.image('hammer', 'assets/hammer.png');
         this.load.image('money', 'assets/money.png');
         this.load.image('choco', 'assets/choco.png');
+        this.load.image('bug', 'assets/bug.png');
+        this.load.image('bug2', 'assets/bug2.png');
+        this.load.image('butterfly', 'assets/butterfly.png');
+        this.load.image('butterfly2', 'assets/butterfly2.png');
+        this.load.image('butterfly3', 'assets/butterfly3.png');
+        this.load.image('virus', 'assets/virus.png');
         this.load.spritesheet('roy', 'assets/roy_20x39.png', { frameWidth: 20, frameHeight: 39 });
         this.load.spritesheet('jen', 'assets/jen_25x51.png', { frameWidth: 25, frameHeight: 51 });
         this.load.spritesheet('denholm', 'assets/denholm_33x50.png', { frameWidth: 33, frameHeight: 50 });
         this.load.spritesheet('postit', 'assets/postit_5x5.png', { frameWidth: 5, frameHeight: 5 });
-        this.load.spritesheet('theInternet', 'assets/the_internet_17x14.png', { frameWidth: 17, frameHeight: 14 });
+        this.load.spritesheet('theInternet', 'assets/the_internet_17x30.png', { frameWidth: 17, frameHeight: 30 });
         this.load.spritesheet('pcError', 'assets/pc_error_40x38.png', { frameWidth: 40, frameHeight: 38 });
         this.load.spritesheet('coffeeTable', 'assets/coffee_table_40x38.png', { frameWidth: 40, frameHeight: 38 });
         this.load.spritesheet('printer', 'assets/printer_28x40.png', { frameWidth: 28, frameHeight: 40 });
@@ -57,7 +62,6 @@ export class GameScene extends Scene {
         this.roy.say('Please Jen, help me get through the office', 2000);
 
         let x = 0;
-        setupInternet(this, x)
         x = this.addRoom(x);
         setupPrinterRoom(this, x);
         x = this.addRoom(x);
@@ -67,7 +71,8 @@ export class GameScene extends Scene {
         x = this.addRoom(x);
         setupCoffeeMachine(this, x);
         x = this.addRoom(x);
-
+        setupInternet(this, x)
+        x = this.addRoom(x);
 
         this.physics.world.setBounds(0, 0, x, ROOM_HEIGHT)
 
@@ -77,8 +82,6 @@ export class GameScene extends Scene {
             gameObject.x = dragX;
             gameObject.y = dragY;
         });
-
-        this.jen.say("OH NOOOO", 3000);
     }
 
     update() {
@@ -140,6 +143,15 @@ export class GameScene extends Scene {
             let newX = this.currentCameraRoom * ROOM_WIDTH + ROOM_WIDTH / 2;
             this.cameras.main.pan(newX, ROOM_HEIGHT / 2, 600, "Sine");
         }
+    }
+
+    setupJenSaysTrigger(x: number, quote: string) {
+        const colliderSprite = this.physics.add.staticSprite(x + 100, 400, "jen").setOrigin(0, 0.5).setVisible(false).refreshBody();
+        const collider = this.physics.add.overlap(this.roy.sprite, colliderSprite, () => {
+            colliderSprite.destroy();
+            collider.destroy();
+            this.jen.say(quote, 6000);
+        })
     }
 }
 
