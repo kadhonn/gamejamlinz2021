@@ -6,7 +6,7 @@ import { setupJen, updateFollower } from "../sprites/jen";
 import { Roy, setupRoy } from "../sprites/roy";
 import { SpeechBubble } from "../sprites/speechBubble";
 import { createButton } from "../sprites/button";
-import { setupPrinter } from "../sprites/obstacles/printer";
+import { setupPrinterRoom } from "../sprites/obstacles/printer";
 
 export const ROOM_WIDTH = 1400;
 export const ROOM_HEIGHT = 600;
@@ -42,6 +42,8 @@ export class GameScene extends Scene {
         this.load.spritesheet('pcError', 'assets/pc_error_40x38.png', { frameWidth: 40, frameHeight: 38 });
         this.load.spritesheet('coffeeTable', 'assets/coffee_table_40x38.png', { frameWidth: 40, frameHeight: 38 });
         this.load.spritesheet('printer', 'assets/printer_28x40.png', { frameWidth: 28, frameHeight: 40 });
+        this.load.image('fireExtinguisher', 'assets/fire_extinguisher_13x21.png');
+        this.load.spritesheet('fireExtinguisherSpray', 'assets/fire_extinguisher_spray_12x12.png', { frameWidth: 12, frameHeight: 12 });
     }
 
     create() {
@@ -55,13 +57,13 @@ export class GameScene extends Scene {
 
         let x = 0;
         x = this.addRoom(x);
+        setupPrinterRoom(this, x);
+        x = this.addRoom(x);
         setupDenholm(this, x);
         x = this.addRoom(x);
         setupErrorPC(this, x);
         x = this.addRoom(x);
         setupCoffeeMachine(this, x);
-        x = this.addRoom(x);
-        setupPrinter(this, x);
         x = this.addRoom(x);
 
         this.physics.world.setBounds(0, 0, x, ROOM_HEIGHT)
