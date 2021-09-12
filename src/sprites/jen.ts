@@ -11,14 +11,21 @@ export function setupJen(scene: GameScene): Phaser.Types.Physics.Arcade.SpriteWi
     });
 
     jen.anims.create({
+        key: 'talk',
+        frames: scene.anims.generateFrameNumbers('jen', { start: 4, end: 5 }),
+        frameRate: 4,
+        repeat: -1
+    });
+
+    jen.anims.create({
         key: 'left',
-        frames: [{ key: 'jen', frame: 6 }],
+        frames: [{ key: 'jen', frame: 7 }],
         frameRate: 20
     });
 
     jen.anims.create({
         key: 'right',
-        frames: [{ key: 'jen', frame: 7 }],
+        frames: [{ key: 'jen', frame: 8 }],
         frameRate: 20
     });
 

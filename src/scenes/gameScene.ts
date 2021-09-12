@@ -7,6 +7,7 @@ import { Roy, setupRoy } from "../sprites/roy";
 import { SpeechBubble } from "../sprites/speechBubble";
 import { createButton } from "../sprites/button";
 import { setupPrinter } from "../sprites/obstacles/printer";
+import {setupInternet} from "../sprites/obstacles/internet";
 
 export const ROOM_WIDTH = 1400;
 export const ROOM_HEIGHT = 600;
@@ -54,6 +55,7 @@ export class GameScene extends Scene {
         this.roy.say('Please Jen, help me get through the office', 2000);
 
         let x = 0;
+        setupInternet(this, x)
         x = this.addRoom(x);
         setupCoffeeMachine(this, x);
         x = this.addRoom(x);
@@ -63,6 +65,7 @@ export class GameScene extends Scene {
         x = this.addRoom(x);
         setupPrinter(this, x);
         x = this.addRoom(x);
+
 
         this.physics.world.setBounds(0, 0, x, ROOM_HEIGHT)
 
