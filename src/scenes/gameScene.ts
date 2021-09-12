@@ -28,7 +28,7 @@ export class GameScene extends Scene {
     createButton = createButton
 
     preload() {
-        this.load.image('moss', 'assets/moss.jpg');
+        this.load.image('moss', 'assets/moss_20x42.png');
         this.load.image('room1', 'assets/room1_400x300.png');
         this.load.image('paperbag', 'assets/paperbag_11x13.png');
         this.load.image('hammer', 'assets/hammer.png');
@@ -60,6 +60,9 @@ export class GameScene extends Scene {
         this.jen = new Jen(this);
 
         this.roy.say('Please Jen, help me get through the office', 2000);
+        this.jen.say(
+            'Roy had a really rough week so far. And I heard there is an attack on THE INTERNET coming as well, we better help him make it through this friday!', 5000
+        );
 
         let x = 0;
         x = this.addRoom(x);
@@ -101,7 +104,6 @@ export class GameScene extends Scene {
 
         this.add.image(x, ROOM_HEIGHT / 2, imageName).setCrop(0, 0, doorOffsetLeft, imageHeight).setScale(scale).setDepth(3).setDisplayOrigin(0, imageHeight / 2);
         this.add.image(x + doorOffsetLeft * scale, ROOM_HEIGHT / 2, imageName).setCrop(doorOffsetLeft, 0, roomMiddleTileStart, imageHeight).setScale(scale).setDepth(-10).setDisplayOrigin(doorOffsetLeft, imageHeight / 2);
-
 
         for (let i = roomMiddleTileStart * scale; i < roomWidth - (imageWidth - roomMiddleTileEnd) * scale; i += (roomMiddleTileEnd - roomMiddleTileStart) * scale) {
             this.add.image(x + i, ROOM_HEIGHT / 2, imageName).setCrop(roomMiddleTileStart, 0, roomMiddleTileEnd - roomMiddleTileStart, imageHeight).setScale(scale).setDepth(-10).setDisplayOrigin(roomMiddleTileStart, imageHeight / 2);
