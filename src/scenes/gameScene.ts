@@ -22,6 +22,7 @@ export class GameScene extends Scene {
     gameOver = false;
     cursors: Phaser.Types.Input.Keyboard.CursorKeys;
     speed = BASE_SPEED;
+    currentCameraRoom = 0;
 
     createButton = createButton
 
@@ -60,6 +61,8 @@ export class GameScene extends Scene {
         x = this.addRoom(x);
 
         this.physics.world.setBounds(0, 0, x, ROOM_HEIGHT)
+
+        this.cameras.main.scrollX = 0;
     }
 
     update() {
@@ -67,10 +70,9 @@ export class GameScene extends Scene {
             return;
         }
 
-        this.cameras.main.scrollX = this.roy.sprite.x - 200;
-
         updateFollower(this);
         updateError(this);
+        this.updateCamera();
     }
 
     addRoom(x: number, roomWidth = ROOM_WIDTH) {
@@ -114,6 +116,14 @@ export class GameScene extends Scene {
 
     createSpeechBubble(x: number, y: number, width: number, height: number, quote: string) {
         return new SpeechBubble(this, x, y, width, height, quote)
+    }
+
+    updateCamera() {
+        if (this.roy.sprite.x > (this.currentCameraRoom + 1) * ROOM_WIDTH) {
+            this.currentCameraRoom++;
+            let newX = this.currentCameraRoom * ROOM_WIDTH + ROOM_WIDTH / 2;
+            this.cameras.main.pan(newX, ROOM_HEIGHT / 2, 600, "Sine");
+        }
     }
 }
 
