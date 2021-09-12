@@ -49,7 +49,7 @@ export class GameScene extends Scene {
         this.jen = setupJen(this);
 
         let x = 0;
-        x = this.addRoom(x, 800);
+        x = this.addRoom(x);
         setupDenholm(this, x);
         x = this.addRoom(x);
         setupErrorPC(this, x);
